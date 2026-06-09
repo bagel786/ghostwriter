@@ -1,0 +1,99 @@
+In Twenty20 (T20) cricket, the death overs --- the final five overs (16--20) of
+an innings --- carry a disproportionate share of the outcome. Scoring rates peak,
+wickets are spent in pursuit of boundaries, and the required run rate in a chase
+swings sharply on a single delivery. Two intuitions dominate how commentators,
+coaches, and models reason about this phase. The first is that \emph{who} is on
+strike or bowling --- a death-overs finisher against a yorker specialist ---
+largely determines the next ball. The second is that \emph{momentum} matters:
+that a run of dot balls builds pressure that spills into the next delivery, or
+that a batter who has just found the boundary is ``hot.'' Both intuitions are
+widely held; neither has been tested cleanly at the level of an individual
+death-over delivery.
+
+The quantitative cricket literature provides the machinery to test them but has
+not done so for this regime. Per-ball win-probability and expected-runs models
+--- WASP's dynamic-programming value function \citep{brooker2012wasp}, the
+dynamic logistic regression of \citet{asif2016inplay}, and the hierarchical
+empirical-Bayes simulators of \citet{swartz2016simulator, swartz2020xer} ---
+either deliberately exclude player identity (``average team vs.\ average team'')
+or include it for simulation rather than for a clean state-versus-identity
+attribution. The pressure-index family \citep{shah2014pressure,
+bhattacharjee2016quantifying, mallawa2024pressure} \emph{defines} pressure as a
+deterministic function of game state and then validates it by predicting
+outcomes; it never isolates a residual, history-beyond-state component. And the
+near-universal Markov assumption of these models --- that the next ball depends
+only on the current state, not on the path that produced it --- has not been
+tested against pressure sequences at the delivery level. Meanwhile, the
+general-sports ``hot hand'' literature has been transformed by the discovery of
+a streak-selection bias in the naive conditional-probability estimator
+\citep{miller2018surprised, miller2024coldshower}, a correction that overturned
+the canonical basketball null \citep{gilovich1985hothand}. No cricket study has
+imported it.
+
+We address all three gaps in a single experiment on real Cricsheet data. We
+build calibrated per-ball models of expected runs $E[\text{runs}]$ and wicket
+probability $P(\text{wicket})$ for the T20 death overs, decompose their
+predictive skill into game state and batter/bowler identity, test whether
+pressure history adds skill beyond a Markov state model, and apply the
+Miller--Sanjurjo correction to the question of per-ball momentum.
+
+We find, first, that the apparent death-over ``cold hand'' is largely a
+finite-sequence statistical artifact: once the Miller--Sanjurjo bias is removed and
+the test is run against a state-stratified null, we find no statistically
+significant per-ball momentum beyond what game state already implies. This
+correction --- new to cricket --- is our central, most defensible result. Second,
+we have no evidence that a \emph{historical-rate encoding} of batter/bowler
+identity improves held-out per-ball skill over a game-state model on either target
+--- and, more pointedly, that adding this identity encoding \emph{hurts}
+out-of-sample expected-runs accuracy in every one of six rolling held-out seasons,
+even as SHAP attributes the majority of explanatory mass to batter identity. A
+random-player placebo confirms this is a genuine dissociation between faithful
+in-sample attribution and generalizable skill, not a leakage or feature-encoding
+artifact. Third, residual dot-ball pressure adds significant skill to expected runs
+(with the expected negative sign) but nothing to wicket risk, so the Markov
+property is violated only for scoring intensity, not for dismissal risk. The
+absolute proper-score differences here are small --- per-ball death-over outcomes
+sit close to the base rate, so even the best models improve on it only modestly ---
+and we therefore lean on the qualitative dissociation and the bias correction
+rather than the size of any one model gain. All conclusions are specific to per-ball
+outcomes in the death overs, under our feature set and our historical-rate identity
+encoding, after state control and bias correction; we are careful throughout to
+distinguish ``this encoding of identity does not help'' from ``identity does not
+matter,'' and ``no significant momentum'' from ``momentum proven absent.''
+
+\paragraph{Contributions.} We make the following contributions:
+\begin{itemize}
+  \item We release a calibrated per-ball benchmark for T20 death overs on
+        223{,}678 deliveries from 4{,}402 men's IPL and T20I matches
+        (2005--2026, held-out 2026 test season), reporting proper scores for
+        both $E[\text{runs}]$ (RMSE $1.728 \to 1.686$ over the base rate) and
+        $P(\text{wicket})$ (log-loss $0.2748 \to 0.2738$) --- and show that a
+        state-only model is the best-calibrated wicket model, with identity
+        \emph{worsening} held-out log-loss.
+  \item We document a SHAP-versus-skill dissociation and stress-test it: TreeSHAP
+        credits batter identity with $51$--$64\%$ of explanatory mass, yet our
+        historical-rate encoding of that identity adds zero or negative held-out
+        incremental skill (runs RMSE $-0.0053$, 95\%
+        CI $[-0.0089, -0.0019]$). A random-player placebo collapses batter SHAP mass
+        to $7$--$8\%$ while leaving skill unchanged, and a six-season rolling-window
+        evaluation finds identity significantly hurts expected-runs RMSE in
+        \emph{every} season --- showing the gap is genuine overfitting of
+        non-stationary player form, not contamination or a single-season fluke.
+  \item We test the Markov assumption directly and find it violated for
+        $E[\text{runs}]$ only: pressure history adds significant skill (RMSE
+        $+0.0065$, 95\% CI $[0.0048, 0.0083]$, dot-run sign negative) but nothing
+        to $P(\text{wicket})$.
+  \item To our knowledge, we provide the first application of the Miller--Sanjurjo
+        streak-selection correction to cricket. The naive death-over momentum
+        estimate is a strong negative ($D=-0.114$), but the finite-sequence bias is
+        nearly equal and opposite ($-0.121$); the corrected estimate ($+0.007$) is
+        not significant against a state-stratified null ($p=0.40$). We quantify the
+        apparent-momentum illusion as the $+0.121$ gap between the naive and
+        corrected estimators.
+\end{itemize}
+
+The remainder of the paper reviews related work (Section~\ref{sec:related}),
+formalizes the targets and methods (Sections~\ref{sec:background}
+and~\ref{sec:method}), reports results (Section~\ref{sec:experiments}), and
+discusses interpretation, limitations, and future work
+(Section~\ref{sec:discussion}).

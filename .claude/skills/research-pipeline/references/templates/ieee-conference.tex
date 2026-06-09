@@ -1,0 +1,96 @@
+% ============================================================
+% IEEE Conference Template (IEEEtran)
+% Compatible with: INFOCOM, ICDCS, ICASSP, and most IEEE conferences
+% Compile: pdflatex main && bibtex main && pdflatex main && pdflatex main
+% ============================================================
+
+\documentclass[conference]{IEEEtran}
+
+% IEEEtran.cls handles most formatting. Don't override its margins.
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{cite}               % IEEE citation ordering
+\usepackage{amsmath, amssymb}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{url}
+\usepackage[colorlinks=false, pdfborder={0 0 0}]{hyperref}
+
+% IEEE-specific macros
+\newcommand{\eg}{\textit{e.g.},\ }
+\newcommand{\ie}{\textit{i.e.},\ }
+\newcommand{\etal}{\textit{et al.}}
+
+% ============================================================
+
+\begin{document}
+
+\title{Your Paper Title Here}
+
+% IEEE author format
+\author{
+  \IEEEauthorblockN{First Author}
+  \IEEEauthorblockA{
+    Department of X \\
+    University Name \\
+    City, Country \\
+    email@university.edu
+  }
+  \and
+  \IEEEauthorblockN{Second Author}
+  \IEEEauthorblockA{
+    Department of Y \\
+    Other Institution \\
+    City, Country \\
+    email@institution.edu
+  }
+}
+
+\maketitle
+
+\begin{abstract}
+  \input{sections/abstract}
+\end{abstract}
+
+\begin{IEEEkeywords}
+keyword1, keyword2, keyword3
+\end{IEEEkeywords}
+
+% ============================================================
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/introduction}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/related-work}
+
+\section{System Model}
+\label{sec:model}
+\input{sections/background}
+
+\section{Proposed Approach}
+\label{sec:method}
+\input{sections/methodology}
+
+\section{Performance Evaluation}
+\label{sec:eval}
+\input{sections/evaluation}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/conclusion}
+
+% ============================================================
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,74 @@
+\paragraph{Per-ball win-probability and expected-runs models.}
+The methodological backbone of in-play cricket modeling is a dynamic-programming
+value function over remaining balls and wickets, $V(b,w) = r(b,w) + p(b,w)\,
+V(b{+}1,w{+}1) + (1{-}p(b,w))\,V(b{+}1,w)$, whose ingredients are exactly the two
+quantities we target: per-ball expected runs $r(b,w)$ and wicket probability
+$p(b,w)$. WASP \citep{brooker2012wasp} popularized this recursion but
+deliberately models an average team against an average team, treating player
+identity as out of scope. \citet{asif2016inplay} forecast win probability with a
+dynamic logistic regression whose coefficients evolve smoothly over an innings,
+prizing calibration over identity. \citet{davis2021dynamic} predict
+second-innings outcomes ball by ball with engineered per-player metrics, and
+\citet{lamsal2024ingame} extend the dynamic-regression line to IPL T20 with
+Bayesian priors and Gaussian-process smoothing. \citet{swartz2016simulator,
+swartz2020xer} build hierarchical empirical-Bayes per-ball outcome models that
+\emph{do} condition on batter and bowler, but for simulation and an
+expected-goals-style economy metric rather than a state-versus-identity
+decomposition. None of these reports the relative weight of identity against
+state, isolated to the death overs and scored properly for both targets.
+
+\paragraph{Pressure indices and contextual performance.}
+A second strand operationalizes ``pressure'' as a deterministic function of game
+state. \citet{shah2014pressure} introduce a ball-by-ball pressure index from
+required rate, wickets, and resources; \citet{bhattacharjee2016quantifying}
+refine it into the widely used PI3; \citet{mallawa2024pressure} derive a
+target-aware index from a differential equation; and
+\citet{thomson2021contextual} define ``clutch'' batting and bowling on a
+runs-to-resources scale. A recent higher-order Markov analysis
+\citep{arxiv2025markov} confirms that pressure-index variance is largest in the
+death overs. Crucially, every member of this family \emph{derives} pressure from
+state and then validates it by predicting outcomes; none separates
+pressure-as-state from pressure-as-residual-history, which is precisely the
+Markov-violation question we test.
+
+\paragraph{Machine learning for cricket, including the death phase.}
+A large applied-ML literature predicts match winners or innings totals with
+gradient boosting and random forests \citep{raju2024dream11, hassan2025bpl},
+typically reporting accuracy or $R^2$ on aggregate quantities rather than
+calibrated per-ball probabilities. A few works engage the death phase directly:
+\citet{sahoo2024shot} use SHAP to model shot selection in the final over, and
+\citet{jamil2023factors} identify death-phase performance factors in
+fifty-over cricket. These establish the death overs as a distinct regime and SHAP
+as the natural attribution tool, but stop short of a calibrated, properly scored
+per-ball model of both expected runs and wicket probability.
+
+\paragraph{The hot hand and the streak-selection correction.}
+\citet{gilovich1985hothand} reported no positive autocorrelation in basketball
+shooting, founding the view that the hot hand is a cognitive illusion.
+\citet{miller2018surprised} proved that the conditional-probability estimator
+used in that analysis carries a finite-sequence selection bias: conditioning on a
+realized streak inside a finite sequence makes the expected
+post-streak success rate strictly below the true rate, with the bias growing in
+streak length and shrinking in sequence length. Correcting for it reverses the
+canonical result and recovers real hot-hand effects, confirmed across datasets in
+\citet{miller2024coldshower}. The tennis-momentum literature
+\citep{huang2025momentum, wang2024momentum} has adopted permutation testing for
+momentum. Cricket has its own hot-hand strand, but it does not use the
+streak-selection correction: \citet{durbach2007cricket} test the perception of
+randomness in cricket scoring sequences with run-based tests that predate
+\citet{miller2018surprised}, and \citet{ram2022hothand} report a significant
+hot-hand effect across players' \emph{careers} using a self-exciting Hawkes point
+process on match-level performances, citing Miller--Sanjurjo only to frame the
+broader debate rather than applying their finite-sequence bias correction. Neither
+operates at the per-ball level nor de-biases the conditional-probability
+estimator. To our knowledge the streak-selection correction itself has not been
+imported into cricket.
+
+\paragraph{What this paper does that prior work does not.}
+We combine these strands into one experiment on the death-over regime. Unlike the
+DP/dynamic-regression line, we report a state-versus-identity skill decomposition
+for both targets with held-out incremental skill, not just attribution. Unlike
+the pressure-index family, we isolate a residual history-beyond-state effect and
+test the Markov assumption directly. And unlike all prior cricket work, we apply
+the Miller--Sanjurjo correction --- with a state-stratified permutation null ---
+to the question of per-ball momentum, the first such application in the sport.

@@ -1,0 +1,26 @@
+We built calibrated per-ball models of expected runs and wicket probability for
+the T20 death overs on 223{,}678 deliveries and decomposed their predictive skill
+into game state and a historical-rate encoding of player identity. We find no
+evidence that this identity encoding improves on a state-only model out-of-sample:
+the state-only model is the best-calibrated wicket
+model, and adding batter/bowler identity worsens held-out log-loss and significantly
+raises runs RMSE in all six rolling test seasons, even though SHAP attributes the
+majority of explanatory mass to identity. A random-player placebo shows this
+attribution is faithful but does not generalize --- a dissociation we trace to
+overfitting of non-stationary form, with the caveat that it concerns our
+historical-rate encoding of identity rather than identity in principle. Pressure
+history violates the Markov assumption for scoring intensity (RMSE $+0.0065$,
+dot-run sign negative) but not for wicket risk. Applying the Miller--Sanjurjo
+streak-selection correction to cricket --- to our knowledge for the first time ---
+we show the apparent death-over momentum is almost entirely a finite-sequence
+artifact: the naive $-0.114$ estimate is matched by a $-0.121$ bias, the corrected
+estimate is $+0.007$, and no cell survives a state-stratified null.
+
+These results matter for both modeling and interpretation. They support
+identity-agnostic, state-based per-ball models for the death overs as a calibrated
+default, caution against reading SHAP attribution as out-of-sample importance, and
+give the cricket pressure literature a bias correction it has lacked. Two concrete
+next steps are a richer, interaction-aware identity representation --- to test
+whether identity can be made to help rather than hurt --- and extending the
+corrected momentum analysis to other phases and to women's T20 to map how the size
+of the apparent-momentum illusion changes with the regime.

@@ -1,0 +1,143 @@
+\begin{thebibliography}{24}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Asif and McHale(2016)]{asif2016inplay}
+M.~Asif and I.~G. McHale.
+\newblock In-play forecasting of win probability in one-day international cricket: A dynamic logistic regression model.
+\newblock \emph{International Journal of Forecasting}, 32\penalty0 (1):\penalty0 34--43, 2016.
+\newblock \doi{10.1016/j.ijforecast.2015.02.005}.
+
+\bibitem[Bandyopadhyay and Bhattacharjee(2025)]{arxiv2025markov}
+R.~Bandyopadhyay and D.~Bhattacharjee.
+\newblock Applications of higher order {Markov} models and pressure index to strategize controlled run chases in {Twenty20} cricket, 2025.
+\newblock URL \url{https://arxiv.org/abs/2505.01849}.
+\newblock Pressure-index analysis of T20 run chases over 6,537 matches.
+
+\bibitem[Benjamini and Hochberg(1995)]{benjamini1995controlling}
+Y.~Benjamini and Y.~Hochberg.
+\newblock Controlling the false discovery rate: A practical and powerful approach to multiple testing.
+\newblock \emph{Journal of the Royal Statistical Society: Series B}, 57\penalty0 (1):\penalty0 289--300, 1995.
+
+\bibitem[Bhattacharjee and Lemmer(2016)]{bhattacharjee2016quantifying}
+D.~Bhattacharjee and H.~H. Lemmer.
+\newblock Quantifying the pressure on the teams batting or bowling in the second innings of limited overs cricket matches.
+\newblock \emph{International Journal of Sports Science and Coaching}, 11\penalty0 (5):\penalty0 683--692, 2016.
+\newblock \doi{10.1177/1747954116667099}.
+
+\bibitem[Brooker and Hogan(2012)]{brooker2012wasp}
+S.~Brooker and S.~Hogan.
+\newblock The {WASP} (win and score predictor): A dynamic-programming value function for limited-overs cricket.
+\newblock Dynamic-programming formulation; documented by New Zealand Cricket and the authors. Non-archival., 2012.
+\newblock Per-ball value recursion over (balls, wickets); deliberately models an average team vs.\ average team.
+
+\bibitem[Davis et~al.(2021)Davis, Perera, and Swartz]{davis2021dynamic}
+J.~Davis, H.~Perera, and T.~B. Swartz.
+\newblock Dynamic cricket match outcome prediction.
+\newblock \emph{Journal of Sports Analytics}, 7\penalty0 (3):\penalty0 185--196, 2021.
+\newblock \doi{10.3233/JSA-200529}.
+
+\bibitem[Epasinghege~Dona et~al.(2020)Epasinghege~Dona, Nguyen, Gill, and Swartz]{swartz2020xer}
+N.~Epasinghege~Dona, R.~Nguyen, P.~Gill, and T.~B. Swartz.
+\newblock Expected economy rate ({xER}): Introducing the expected-goals concept to cricket.
+\newblock Working paper, Simon Fraser University, 2020.
+\newblock Random-forest per-ball outcome model; Brier score 0.33.
+
+\bibitem[Gilovich et~al.(1985)Gilovich, Vallone, and Tversky]{gilovich1985hothand}
+T.~Gilovich, R.~Vallone, and A.~Tversky.
+\newblock The hot hand in basketball: On the misperception of random sequences.
+\newblock \emph{Cognitive Psychology}, 17\penalty0 (3):\penalty0 295--314, 1985.
+\newblock \doi{10.1016/0010-0285(85)90010-6}.
+
+\bibitem[Hassan et~al.(2025)]{hassan2025bpl}
+M.~Hassan et~al.
+\newblock Outcome prediction of {Bangladesh} premier league {T20} cricket via ensemble learning.
+\newblock In \emph{Proceedings of the IEEE Conference on Quality, Performance and Artificial Intelligence (QPAIN)}. IEEE, 2025.
+
+\bibitem[Huang et~al.(2025)]{huang2025momentum}
+Y.~Huang et~al.
+\newblock Unraveling psychological momentum in tennis via machine learning.
+\newblock In \emph{Proceedings of the IEEE Conference on Big Data and Artificial Intelligence (BDAI)}. IEEE, 2025.
+
+\bibitem[Jamil et~al.(2023)Jamil, Kerruish, Hughes, and Liu]{jamil2023factors}
+M.~Jamil, S.~Kerruish, M.~Hughes, and H.~Liu.
+\newblock Factors impacting batting and bowling performance in the ``death'' phase of one-day international cricket.
+\newblock \emph{International Journal of Performance Analysis in Sport}, 23\penalty0 (2):\penalty0 111--124, 2023.
+\newblock \doi{10.1080/24748668.2023.2203369}.
+
+\bibitem[Ke et~al.(2017)Ke, Meng, Finley, Wang, Chen, Ma, Ye, and Liu]{ke2017lightgbm}
+G.~Ke, Q.~Meng, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T.-Y. Liu.
+\newblock {LightGBM}: A highly efficient gradient boosting decision tree.
+\newblock In \emph{Advances in Neural Information Processing Systems (NeurIPS)}, volume~30, pages 3146--3154, 2017.
+
+\bibitem[Lamsal and Kahle(2024)]{lamsal2024ingame}
+R.~Lamsal and C.~Kahle.
+\newblock In-game win prediction models for cricket.
+\newblock In \emph{Smart Data Science (SDSC 2024)}, Communications in Computer and Information Science. Springer, 2024.
+
+\bibitem[Lundberg and Lee(2017)]{lundberg2017shap}
+S.~M. Lundberg and S.-I. Lee.
+\newblock A unified approach to interpreting model predictions.
+\newblock In \emph{Advances in Neural Information Processing Systems (NeurIPS)}, volume~30, pages 4765--4774, 2017.
+
+\bibitem[Mallawa~Arachchi et~al.(2024)Mallawa~Arachchi, Manage, and Scariano]{mallawa2024pressure}
+S.~Mallawa~Arachchi, A.~B.~W. Manage, and S.~M. Scariano.
+\newblock A pressure index for the team batting second in a {T20I} cricket match.
+\newblock \emph{Journal of Sports Analytics}, 2024.
+\newblock \doi{10.3233/JSA-240792}.
+
+\bibitem[Miller and Sanjurjo(2018)]{miller2018surprised}
+J.~B. Miller and A.~Sanjurjo.
+\newblock Surprised by the hot hand fallacy? a truth in the law of small numbers.
+\newblock \emph{Econometrica}, 86\penalty0 (6):\penalty0 2019--2047, 2018.
+\newblock \doi{10.3982/ECTA14943}.
+
+\bibitem[Miller and Sanjurjo(2024)]{miller2024coldshower}
+J.~B. Miller and A.~Sanjurjo.
+\newblock A cold shower for the hot hand fallacy: Robust evidence that belief in the hot hand is justified.
+\newblock \emph{Review of Economics and Statistics}, 106\penalty0 (6):\penalty0 1607--1620, 2024.
+\newblock \doi{10.1162/rest_a_01287}.
+
+\bibitem[Raju et~al.(2024)]{raju2024dream11}
+S.~Raju et~al.
+\newblock {IPL} {Dream11} fantasy team prediction using machine learning.
+\newblock In \emph{Proceedings of the World Symposium on Software Engineering}. ACM, 2024.
+
+\bibitem[Rushe(2024)]{cricsheet}
+S.~Rushe.
+\newblock Cricsheet: Ball-by-ball data for cricket matches.
+\newblock \url{https://cricsheet.org}, 2024.
+\newblock Open ball-by-ball data, CC-BY-4.0. Accessed 2026-05-29.
+
+\bibitem[Sahoo et~al.(2024)Sahoo, Deyar, and Gupta]{sahoo2024shot}
+D.~K. Sahoo, D.~U. Deyar, and D.~Gupta.
+\newblock Prediction of shot selection of a batsman in the death over of a {T20} cricket match using machine learning.
+\newblock In \emph{2024 IEEE 9th International Conference for Convergence in Technology (I2CT)}, pages 1--7. IEEE, 2024.
+\newblock \doi{10.1109/I2CT61223.2024.10543886}.
+
+\bibitem[Shah and Shah(2014)]{shah2014pressure}
+P.~Shah and M.~Shah.
+\newblock Pressure index in cricket.
+\newblock \emph{IOSR Journal of Sports and Physical Education}, 1\penalty0 (5):\penalty0 9--11, 2014.
+
+\bibitem[Swartz(2016)]{swartz2016simulator}
+T.~B. Swartz.
+\newblock A simulator for {Twenty20} cricket.
+\newblock Working paper, Simon Fraser University, 2016.
+\newblock Hierarchical empirical-Bayes per-ball outcome model.
+
+\bibitem[Thomson et~al.(2021)Thomson, Davis, and Swartz]{thomson2021contextual}
+C.~Thomson, J.~Davis, and T.~B. Swartz.
+\newblock Contextual batting and bowling in {Twenty20} cricket.
+\newblock Working paper, Simon Fraser University, 2021.
+
+\bibitem[Wang et~al.(2024)Wang, Guo, and Zhou]{wang2024momentum}
+J.~Wang, Y.~Guo, and X.~Zhou.
+\newblock A multidimensional momentum chain model for tennis match prediction.
+\newblock \emph{PLoS ONE}, 2024.
+\newblock \doi{10.1371/journal.pone.0309843}.
+
+\end{thebibliography}

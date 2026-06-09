@@ -1,0 +1,120 @@
+\subsection{Why identity adds little over state at the death}
+A plausible reading is that the death overs compress the decision space. With few
+balls and wickets left, the situation constrains intent strongly --- most batters
+attack and most bowlers defend regardless of who they are --- so the state features
+appear to capture most of the recoverable signal. That state explains roughly
+$40\times$ more skill for runs than for wickets is consistent with the mechanism we
+hypothesized: scoring is where elite finishers separate, while death-over wickets
+are driven by high-variance events (mishits on yorkers and slower balls under
+maximum-aggression intent) that are largely unpredictable from the observed state.
+The wicket head barely improves on the base rate for any model, and the
+residual-history test (H2) finds no path-dependence in wicket risk --- two
+consistent indications of the same limited predictability.
+
+\subsection{The SHAP--skill dissociation}
+A result worth dwelling on is the gap between attribution and skill. TreeSHAP
+credits batter identity with the majority of explanatory mass, yet identity adds
+no positive held-out skill and significantly hurts runs RMSE in every one of six
+seasons. The random-player placebo isolates the mechanism: shuffling player
+identities collapses batter SHAP mass from $51$--$64\%$ to $7$--$8\%$, so the model
+genuinely keys on real players (the attribution is faithful, not an artifact of
+high-variance features); but real identity is no more useful out-of-sample than the
+shuffled placebo, and in fact slightly worse. The explanation is overfitting of
+non-stationary form: empirical-Bayes historical death-over rates explain
+training-set variance --- which is what SHAP measures --- but a player's form does
+not transfer cleanly to the next season's deliveries. Practitioners who read SHAP
+mass as importance, without an out-of-sample skill check, would conclude that
+death-over modeling should center on player identity. The held-out evidence says
+the opposite: a state-only model is better calibrated and more stable across seeds.
+This is a concrete cautionary case for pairing attribution with proper out-of-sample
+scoring. We are careful about the scope of the claim: this shows that \emph{our}
+identity representation --- empirical-Bayes historical death-over rates --- does not
+generalize, not that player identity is irrelevant in principle (see
+Section~\ref{sec:limitations}).
+
+\subsection{What the Markov violation does and does not mean}
+H2 shows a genuine but narrow departure from the Markov assumption: longer
+preceding dot runs lower the next ball's expected runs, beyond state, identity,
+and a deterministic pressure index. The effect is on scoring suppression, not
+dismissal risk. This refines the field's backbone models --- they are
+well-specified for wicket dynamics at the death but slightly mis-specified for
+run-scoring intensity, where recent dot balls carry information that the
+instantaneous state does not. The effect is small in absolute terms (RMSE
+$+0.0065$) but robust (interval well clear of zero, correct sign).
+
+This asymmetry --- pressure shows up in runs but not wickets --- is the finding that
+most complicates a blanket ``momentum is an illusion'' reading, and it is worth
+being explicit that our design identifies the effect but not its mechanism. Several
+non-exclusive pathways are consistent with it. \emph{Bowler--captain adaptation:}
+a run of dot balls is partly a marker of a bowler executing well (a settled yorker
+or wide-line plan) and of field settings that the over-level state features do not
+fully capture, so the suppression may be ongoing tactical control rather than a
+psychological state of the batter. \emph{Batter recalibration:} after consecutive
+dots a batter may rationally lower risk for a ball or two, or conversely be forced
+into a low-percentage shot --- both depress expected runs without raising the
+modelled dismissal probability. \emph{Strike rotation and matchup:} dot runs are
+correlated with the striker being pinned at one end against a difficult matchup. We
+cannot separate these with observational per-ball data, and we caution that the
+dot-run feature is plausibly confounded with bowler quality even after the identity
+and pressure-index controls; a cleaner test would condition on bowler-over identity
+or use a natural experiment. What we can say is narrow and defensible: conditional
+on a rich state-plus-identity model, recent dot balls carry residual information
+about scoring intensity, and they do not carry residual information about wicket
+risk.
+
+\subsection{Apparent momentum and the streak-selection bias}
+H3 returns to the momentum question. The naive cricket momentum estimator reports a
+strong ``cold hand'' at the death, and a reader applying the standard
+conditional-probability comparison --- as the cricket pressure literature
+implicitly does --- would be liable to treat that as real and even ``significant''
+at higher $k$. We find it is largely a finite-sequence selection artifact: the
+Miller--Sanjurjo bias is nearly equal and opposite, the corrected estimate is
+near zero, and no cell survives a state-stratified null with multiple-testing
+control. Death-over stays are short, which is the regime where the bias is largest,
+so it is a setting where omitting the correction is particularly consequential. We
+frame the conclusion as an absence of evidence rather than evidence of absence:
+after correction and state control we find no statistically significant per-ball
+momentum, which is not the same as proving momentum cannot exist at any scale or for
+any player. We report the $+0.121$ gap as the study's main quantity: it estimates
+how much of the apparent momentum is introduced by the estimator rather than
+supported by the data.
+
+\subsection{Limitations}
+\label{sec:limitations}
+Several limitations bound these claims. The most important is that our finding is
+about a \emph{representation} of identity, not identity in principle. We encode
+players by empirical-Bayes historical death-over rates (strike rate, boundary and
+dot fractions, dismissal/economy rates); a reviewer is right to note that this omits
+handedness, explicit batter--bowler matchup terms, venue and conditions, and
+short-horizon recent form. It is therefore possible that identity ``did not fail''
+so much as our encoding of it did, and that a richer or more interaction-aware
+representation would recover out-of-sample skill. The placebo shows our encoding
+carries genuine, faithfully-attributed signal that nonetheless does not generalize;
+it does not show that no identity representation could. Second, the identity encoders
+use a simplified two-pool historical scheme (pre-$(T{-}3)$ for training,
+pre-$(T{-}2)$ for evaluation) rather than strict per-match historical encoding; the
+leakage audit and placebo argue against contamination, but a stricter encoding could
+still shift the estimates. Third, the main calibration tables use a single held-out
+test season (2026) with five seeds governing only model and resampling randomness;
+the rolling-window study (Section~\ref{sec:results-robust}) extends the central
+identity result across 2021--2026, but the H2 and H3 analyses are reported on 2026
+only. Fourth, the H3 permutation count was $B = 2000$ (from a preregistered $5000$)
+for runtime; given the large separation between bias and corrected effect this
+affects $p$-value resolution, not the conclusions. Fifth, the dot-run pressure
+feature is plausibly confounded with bowler quality even after our controls, so the
+H2 effect should be read as associational. Finally, WASP's canonical description is
+non-archival, so we cite it by its dynamic-programming formulation rather than a
+peer-reviewed article.
+
+\subsection{Future work}
+Three concrete directions follow. First, build a richer identity representation ---
+handedness, explicit batter--bowler matchup encodings, venue and recent-form
+features --- and test whether it recovers the out-of-sample skill that the
+historical-rate encoding does not; this is the most direct way to sharpen the
+``state versus identity'' claim. Second, extend the rolling-window protocol to the
+H2 and H3 analyses (currently reported on 2026 only) and pair it with a stricter
+per-match identity encoding and a GLM-versus-LightGBM learner check, to confirm the
+dissociation and the momentum null are not learner- or split-specific. Third, extend
+the Miller--Sanjurjo analysis to women's T20 and to other phases (powerplay, middle
+overs), where sequence lengths and base rates differ, to map how the size of the
+apparent-momentum illusion varies with the regime.

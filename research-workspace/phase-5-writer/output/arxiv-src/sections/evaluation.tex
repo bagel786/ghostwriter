@@ -1,0 +1,373 @@
+\paragraph{Overview.}
+Three findings emerge. (i) A game-state-only model is the best-calibrated wicket
+model; adding batter/bowler identity \emph{worsens} held-out log-loss and does not
+lower runs RMSE, even though SHAP attributes most explanatory mass to identity.
+(ii) Pressure history adds significant skill to expected runs but nothing to
+wicket probability. (iii) The apparent death-over momentum effect is largely a
+Miller--Sanjurjo finite-sequence artifact; no cell survives correction.
+
+\subsection{Calibrated per-ball benchmark}
+\label{sec:results-main}
+Table~\ref{tab:wicket} and Table~\ref{tab:runs} report the model ladder, mean over
+five seeds. For the wicket head, the state-only model M\_S achieves the best
+log-loss ($0.27381$), improving only marginally on the base rate ($0.27484$);
+\emph{every} model that adds identity is worse, with the full-identity M\_SBW at
+$0.27495$ --- above the base rate. Death-over wickets are, on this evidence,
+close to the limit of what the observed state can predict. For the runs head, state captures most of the gain over the
+base rate (RMSE $1.728 \to 1.688$); adding identity \emph{raises} RMSE slightly
+while \emph{lowering} MAE, indicating that identity helps the typical ball but
+adds variance on the extremes. The full model M\_SBW+P+H attains the lowest RMSE
+($1.686$) and MAE ($1.233$); the history group, not identity, is what moves RMSE
+back below state-only. Seed stability is high (M\_S wicket log-loss std
+$7.9\times10^{-5}$; M\_S runs RMSE std $1.4\times10^{-4}$), whereas identity models
+show larger seed variance (M\_SBW log-loss std $1.4\times10^{-3}$), consistent
+with identity fitting noise. Figure~\ref{fig:ladder} visualizes the ladder.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+Model & log-loss $\downarrow$ & Brier $\downarrow$ & ECE $\downarrow$ & PR-AUC $\uparrow$ \\
+\midrule
+M0 (base rate)   & 0.27484 & 0.07225 & 0.0000 & 0.0784 \\
+\textbf{M\_S (state-only)} & \textbf{0.27381} & 0.07211 & 0.0029 & 0.0904 \\
+M\_SB (+batter)  & 0.27413 & 0.07214 & 0.0029 & 0.0880 \\
+M\_SW (+bowler)  & 0.27462 & 0.07212 & 0.0019 & 0.0881 \\
+M\_SBW (+both)   & 0.27495 & 0.07220 & 0.0026 & 0.0847 \\
+M\_SBW+P         & 0.27423 & 0.07216 & 0.0021 & 0.0858 \\
+M\_SBW+P+H       & 0.27408 & 0.07214 & 0.0019 & 0.0869 \\
+\bottomrule
+\end{tabular}
+\caption{Wicket head $P(\text{wicket})$ on the held-out 2026 season, mean over
+five seeds. State-only (M\_S) is the best-calibrated model; adding identity
+worsens log-loss, and no model meaningfully beats the base rate --- death-over
+wickets are barely improved upon by any model considered here.}
+\label{tab:wicket}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lccc}
+\toprule
+Model & RMSE $\downarrow$ & MAE $\downarrow$ & CRPS $\downarrow$ \\
+\midrule
+M0 (base rate)   & 1.72835 & 1.29117 & --- \\
+M\_S (state-only) & 1.68751 & 1.25512 & --- \\
+M\_SB (+batter)  & 1.69154 & 1.24305 & --- \\
+M\_SW (+bowler)  & 1.69029 & 1.24746 & --- \\
+M\_SBW (+both)   & 1.69208 & 1.24063 & --- \\
+M\_SBW+P         & 1.69173 & 1.23991 & --- \\
+\textbf{M\_SBW+P+H} & \textbf{1.68639} & \textbf{1.23287} & --- \\
+M\_mult (multinomial) & 1.69063 & 1.23843 & 0.81604 \\
+\bottomrule
+\end{tabular}
+\caption{Runs head $E[\text{runs}]$ on the held-out 2026 season, mean over five
+seeds. State captures most of the gain over the base rate; identity raises RMSE
+but lowers MAE. The full model (state $+$ identity $+$ pressure index $+$ history)
+attains the lowest RMSE and MAE, driven by the history group.}
+\label{tab:runs}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/fig3_model_ladder.pdf}
+\caption{The nested model ladder for both targets. Adding batter/bowler identity
+fails to improve held-out wicket log-loss (left) and does not lower runs RMSE
+(right); the gains over the base rate come from game state, and only the pressure
+history group pushes runs RMSE below state-only.}
+\label{fig:ladder}
+\end{figure}
+
+\subsection{H1: state versus identity, and the SHAP--skill dissociation}
+\label{sec:results-h1}
+TreeSHAP attributes the majority of explanatory mass to batter identity ---
+$50.6\%$ for runs and $63.7\%$ for wickets --- with state at $31.1\%$/$26.0\%$ and
+bowler at $18.3\%$/$10.3\%$ (Figure~\ref{fig:shap}). Yet the held-out incremental
+skill of identity over state is zero or negative
+(Table~\ref{tab:h1incr}, Figure~\ref{fig:forest}). For the wicket head, adding
+batter identity changes log-loss by $-0.00033$ with a confidence interval that
+includes zero; for the runs head, adding identity is significantly
+\emph{negative} ($\text{B}\mid\text{S}$ RMSE $-0.0053$, 95\% CI $[-0.0089,
+-0.0019]$) --- identity hurts out-of-sample RMSE. A leakage audit
+(Table~\ref{tab:leakage}) regressing each identity encoding on the state group
+finds only modest shared variance (maximum $R^2 = 0.17$ for $\texttt{bat\_deathSR}$),
+indicating the encodings are not simply restating state. This rules out the
+crudest form of contamination but does not by itself establish the mechanism; the
+random-player placebo in Section~\ref{sec:results-robust} provides a more direct
+control and indicates that the dissociation reflects in-sample overfitting
+of non-stationary player form --- empirical-Bayes historical rates explain training
+variance, and hence carry SHAP mass, but do not transfer to the next season's
+deliveries.
+
+The predicted asymmetry holds. Identity's share of total state-plus-identity skill
+is $-0.137$ for runs and $-0.493$ for wickets, an asymmetry (runs minus wicket)
+of $+0.356$: identity is relatively less harmful for runs than for wickets, the
+predicted direction. State explains roughly $40\times$ more skill for runs (RMSE
+gain $0.0409$ over the base rate) than for wickets (log-loss gain $0.0010$).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/fig1_grouped_shap.pdf}
+\caption{Grouped SHAP mass (\% of total $|\text{SHAP}|$) for the full identity
+model M\_SBW. Batter identity dominates attribution for both targets ($50.6\%$ for
+runs, $63.7\%$ for wickets), despite adding no positive held-out skill
+(cf.\ Table~\ref{tab:h1incr}).}
+\label{fig:shap}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{llrc}
+\toprule
+Target & Added & Incr.\ skill & 95\% CI \\
+\midrule
+wicket (log-loss) & B\,$\mid$\,S  & $-0.00033$ & $[-0.00097, +0.00036]$ \\
+wicket (log-loss) & W\,$\mid$\,S  & $+0.00024$ & $[-0.00035, +0.00082]$ \\
+wicket (log-loss) & BW\,$\mid$\,S & $-0.00033$ & $[-0.00128, +0.00062]$ \\
+runs (RMSE)       & B\,$\mid$\,S  & $-0.00531$ & $[-0.00889, -0.00192]$ \\
+runs (RMSE)       & W\,$\mid$\,S  & $-0.00271$ & $[-0.00496, -0.00056]$ \\
+runs (RMSE)       & BW\,$\mid$\,S & $-0.00492$ & $[-0.00840, -0.00153]$ \\
+\bottomrule
+\end{tabular}
+\caption{Held-out incremental skill of identity over state (match-clustered
+bootstrap, 1000 replicates). Positive denotes improvement. For wickets the
+intervals include zero; for runs adding identity is significantly negative.}
+\label{tab:h1incr}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/fig2_h1_incremental_forest.pdf}
+\caption{Forest plot of identity's held-out incremental skill over state, with
+match-clustered bootstrap 95\% intervals. No identity addition yields a
+significant positive improvement; for the runs head the effect is significantly
+negative.}
+\label{fig:forest}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lc}
+\toprule
+Identity feature & $R^2$ vs.\ state \\
+\midrule
+bat\_deathSR              & 0.169 \\
+bat\_boundary\_pct        & 0.151 \\
+bat\_dot\_pct             & 0.147 \\
+bat\_n\_prior\_balls      & 0.111 \\
+bowl\_boundary\_conc\_pct & 0.083 \\
+bowl\_n\_prior\_balls     & 0.077 \\
+bowl\_deathER             & 0.073 \\
+bowl\_dot\_pct            & 0.039 \\
+bat\_dismissal\_rate      & 0.020 \\
+bowl\_wicket\_rate        & 0.009 \\
+\bottomrule
+\end{tabular}
+\caption{Leakage audit: $R^2$ of each identity encoding regressed on the state
+group. Shared variance is modest (maximum $0.17$), so the identity features are
+not simply restating state; the random-player placebo
+(Section~\ref{sec:results-robust}) provides a more direct control for the
+SHAP--skill dissociation.}
+\label{tab:leakage}
+\end{table}
+
+\subsection{Robustness: a placebo and a six-season rolling window}
+\label{sec:results-robust}
+The H1 dissociation invites two objections: that the SHAP mass is an artifact of
+feeding the model high-variance numeric features rather than real player signal,
+and that ``identity hurts'' is specific to the single 2026 test season. We address
+both directly.
+
+\paragraph{Random-player placebo.}
+We refit the full M\_SBW model with the player-to-encoding mapping randomly
+shuffled, so that each player receives another player's historical encoding: the
+marginal feature distribution is preserved but player-specific signal is destroyed.
+If the SHAP mass merely reflected high-variance features, the placebo would inherit
+it; if real identity carried generalizable signal, the placebo would lose skill.
+Neither holds (Table~\ref{tab:placebo}, Figure~\ref{fig:placebo}). Batter SHAP mass
+collapses from $50.6\%/63.7\%$ (runs/wicket) to $7.5\%/6.9\%$ under the placebo,
+with the freed mass flowing to state --- so the attribution is \emph{faithful}: the
+model genuinely keys on real player identity. Yet real identity's out-of-sample
+skill is actually \emph{worse} than the placebo's: real identity significantly hurts
+expected-runs RMSE ($-0.0049$, 95\% CI $[-0.0085, -0.0013]$) while random encodings
+are harmless ($+0.0002$, CI spanning zero). The dissociation is therefore genuine
+overfitting of non-stationary form, not a leakage or cardinality artifact.
+
+\paragraph{Rolling-window evaluation.}
+We repeat the held-out-season protocol for every feasible test season 2021--2026
+(train $\le T{-}2$, validate on $T{-}1$, test on $T$). The pattern is stable
+(Table~\ref{tab:rolling}, Figure~\ref{fig:rolling}): in \emph{all six} seasons a
+state-only model beats state-plus-identity on expected-runs RMSE, and the identity
+increment is significantly negative (interval excludes zero) in every season,
+ranging from $-0.0049$ to $-0.0131$. Identity never improves wicket log-loss either
+(negative point estimate in all six seasons). The ``game state is not improved upon
+by identity'' finding is thus a consistent multi-season property, not an artifact of
+the 2026 test split.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lccc}
+\toprule
+Encoding & Batter SHAP (runs/wkt) & Runs incr.\ skill (BW$\mid$S) & Wicket incr.\ (BW$\mid$S) \\
+\midrule
+Real identity   & $50.6\%$ / $63.7\%$ & $-0.0049$ $[-0.0085, -0.0013]$ & $-0.00033$ $[-0.0013, +0.0006]$ \\
+Shuffled placebo & $7.5\%$ / $6.9\%$  & $+0.0002$ $[-0.0006, +0.0011]$ & $+0.00008$ $[-0.0004, +0.0005]$ \\
+\bottomrule
+\end{tabular}
+\caption{Random-player placebo. Real identity dominates SHAP attribution yet hurts
+held-out runs RMSE; shuffling the player map collapses the attribution and leaves
+skill at zero. The faithful-attribution-but-no-skill pattern confirms overfitting
+of non-stationary player form.}
+\label{tab:placebo}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrccc}
+\toprule
+Test season & $n$ & Runs RMSE: state $\to$ state$+$id & Identity incr.\ (runs) & Sig.? \\
+\midrule
+2021 & 14{,}437 & $1.710 \to 1.717$ & $-0.0074$ $[-0.0126, -0.0021]$ & yes \\
+2022 & 25{,}545 & $1.701 \to 1.712$ & $-0.0112$ $[-0.0152, -0.0071]$ & yes \\
+2023 & 20{,}373 & $1.679 \to 1.692$ & $-0.0131$ $[-0.0183, -0.0082]$ & yes \\
+2024 & 28{,}969 & $1.684 \to 1.689$ & $-0.0049$ $[-0.0080, -0.0012]$ & yes \\
+2025 & 28{,}202 & $1.700 \to 1.708$ & $-0.0079$ $[-0.0118, -0.0043]$ & yes \\
+2026 & 22{,}883 & $1.687 \to 1.692$ & $-0.0049$ $[-0.0085, -0.0013]$ & yes \\
+\bottomrule
+\end{tabular}
+\caption{Rolling-window evaluation. In every held-out season, adding identity
+significantly raises expected-runs RMSE (incremental skill negative, interval
+excluding zero); state-only is never improved upon. The identity result is not
+specific to 2026.}
+\label{tab:rolling}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.95\linewidth]{figures/fig6_identity_placebo.pdf}
+\caption{Random-player placebo. Left: batter-group SHAP mass collapses from
+$\sim$$50$--$64\%$ to $\sim$$7$--$8\%$ when player identities are shuffled, so the
+attribution genuinely tracks real players. Right: real identity significantly hurts
+expected-runs RMSE while the placebo is harmless --- faithful attribution, no
+generalizable skill.}
+\label{fig:placebo}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.95\linewidth]{figures/fig7_rolling_window.pdf}
+\caption{Six-season rolling-window evaluation. Left: identity's incremental skill on
+expected runs is negative with intervals excluding zero in all six held-out seasons.
+Right: state-only RMSE is below state-plus-identity in every season. The identity
+finding is stable, not a 2026 artifact.}
+\label{fig:rolling}
+\end{figure}
+
+\subsection{H2: a Markov violation for runs, not wickets}
+\label{sec:results-h2}
+Adding the pressure-history group on top of the full state-plus-identity-plus-PI
+model (M\_SBW+P+H $-$ M\_SBW+P) yields significant incremental skill for expected
+runs (RMSE $\Delta = +0.0065$, 95\% CI $[0.0048, 0.0083]$, excluding zero), and
+the $\texttt{dot\_run\_len}$ SHAP sign is \emph{negative} --- longer preceding dot
+runs lower the next ball's expected runs, a genuine path-dependence
+(Table~\ref{tab:h2}, Figure~\ref{fig:h2}). For wicket probability the history
+group adds nothing significant (both log-loss and Brier intervals include zero).
+The Markov property is therefore violated for scoring intensity but holds for
+dismissal risk: the folk claim that ``pressure builds until a wicket falls'' is
+not supported once state is controlled; the residual pressure effect is scoring
+suppression, not added wicket risk.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{llrcc}
+\toprule
+Target & Metric & $\Delta$ & 95\% CI & sig. \\
+\midrule
+wicket & log-loss & $+0.000165$ & $[-0.000132, +0.000440]$ & no \\
+wicket & Brier    & $+0.000021$ & $[-0.000023, +0.000065]$ & no \\
+runs   & RMSE     & $\mathbf{+0.006500}$ & $\mathbf{[+0.00481, +0.00826]}$ & \textbf{yes} \\
+\bottomrule
+\end{tabular}
+\caption{H2 incremental skill of pressure history beyond state $+$ identity $+$
+pressure index (match-clustered bootstrap). History helps expected runs
+significantly (with negative dot-run sign) but adds nothing to wicket probability.}
+\label{tab:h2}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/fig4_h2_incremental.pdf}
+\caption{Incremental skill of the pressure-history group beyond a full
+state-plus-identity-plus-pressure-index model. The effect is significant for
+expected runs (interval excludes zero) and null for wicket probability.}
+\label{fig:h2}
+\end{figure}
+
+\subsection{H3: momentum is a Miller--Sanjurjo artifact}
+\label{sec:results-h3}
+On the preregistered primary test ($k=1$, scoring shot, hot hand,
+state-stratified null), the naive estimator reports a strong negative effect,
+$D_{\text{naive}} = -0.114$ --- an apparent ``cold hand'' in which a batter who
+just scored is \emph{less} likely to score next. But the Miller--Sanjurjo
+finite-sequence bias is $\mathbb{E}_0 = -0.121$, nearly equal and opposite. The
+bias-corrected estimate is $D_{\text{corr}} = +0.007$, and the gap is
+$D_{\text{corr}} - D_{\text{naive}} = +0.121$ --- the correction moves the answer
+by about twelve percentage points, almost entirely accounting for the naive
+result. Against the state-stratified permutation null the corrected estimate is
+not significant ($p = 0.402$, Benjamini--Hochberg-adjusted $0.9995$).
+Figure~\ref{fig:h3} contrasts the naive and corrected estimates across the sweep.
+
+Across the full sweep ($k \in \{1,2,3\}$, two success definitions, two
+directions; $1{,}760$ sequences for the primary cell), the naive estimate is
+always sizeable ($|D_{\text{naive}}|$ up to $0.31$ at $k=3$) while the corrected
+estimate stays small ($|D_{\text{corr}}| \le 0.07$), and the bias grows
+monotonically with $k$ --- the signature Miller--Sanjurjo pattern. After
+Benjamini--Hochberg correction, \emph{none} of the twelve tests is significant at
+$0.05$ (smallest adjusted $p = 0.072$, for boundary/cold/$k=1$, whose raw
+state-stratified $p = 0.006$). The naive uncorrected $p$-values flag several
+``significant'' cells (e.g.\ $k=3$ raw $p \approx 0.0005$) that are bias
+artifacts --- the false-positive pattern the correction is designed to catch. We
+therefore find no statistically significant per-ball momentum once the bias is
+removed and game state is controlled. We report the $+0.121$ gap as the primary
+quantity: an estimate of the apparent momentum introduced by the naive estimator.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Test ($k$, def, dir) & $D_{\text{naive}}$ & bias & $D_{\text{corr}}$ & $p_{\text{strat}}$ & BH \\
+\midrule
+1, score, hot$^\star$ & $-0.114$ & $-0.121$ & $+0.007$ & 0.402 & 0.9995 \\
+2, score, hot & $-0.156$ & $-0.225$ & $+0.069$ & 0.096 & 0.579 \\
+3, score, hot & $-0.222$ & $-0.290$ & $+0.069$ & 0.737 & 0.9995 \\
+1, score, cold & $+0.090$ & $+0.088$ & $+0.002$ & 0.696 & 0.9995 \\
+1, bndry, hot & $-0.131$ & $-0.127$ & $-0.004$ & 0.698 & 0.9995 \\
+1, bndry, cold & $+0.038$ & $+0.031$ & $+0.007$ & 0.006 & 0.072 \\
+\bottomrule
+\end{tabular}
+\caption{Selected H3 results on batter death-over stays (full sweep in the
+supplementary CSV). $^\star$ denotes the preregistered primary test. The naive
+estimate is large in every cell; after removing the Miller--Sanjurjo bias the
+corrected estimate is near zero, and no cell survives Benjamini--Hochberg
+correction.}
+\label{tab:h3}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\linewidth]{figures/fig5_h3_momentum.pdf}
+\caption{Naive versus Miller--Sanjurjo-corrected momentum estimates by streak
+length. The naive estimate (apparent cold hand) grows with $k$, tracked almost
+exactly by the finite-sequence selection bias; the corrected estimate stays near
+zero. The $+0.121$ gap at the primary test ($k=1$, scoring shot) is the size of
+the momentum illusion.}
+\label{fig:h3}
+\end{figure}

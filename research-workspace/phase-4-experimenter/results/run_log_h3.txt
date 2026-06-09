@@ -1,0 +1,42 @@
+[23:11:15] loading cached parquet
+[23:11:16] split: train<= 2024 (172,593) | val 2025 (28,202) | test 2026 (22,883)
+[23:11:17] H3: Miller-Sanjurjo momentum
+[23:13:05]     H3 batter_stay/score/hot/k=1: D_naive=-0.1144 D_corr=0.0068 gap=0.1211 p_strat=0.4023
+[23:14:02]     H3 batter_stay/score/hot/k=2: D_naive=-0.1556 D_corr=0.0690 gap=0.2246 p_strat=0.0965
+[23:14:38]     H3 batter_stay/score/hot/k=3: D_naive=-0.2215 D_corr=0.0686 gap=0.2901 p_strat=0.7366
+[23:16:30]     H3 batter_stay/score/cold/k=1: D_naive=0.0902 D_corr=0.0019 gap=-0.0884 p_strat=0.6962
+[23:17:35]     H3 batter_stay/score/cold/k=2: D_naive=0.1385 D_corr=-0.0470 gap=-0.1855 p_strat=0.3818
+[23:18:16]     H3 batter_stay/score/cold/k=3: D_naive=0.2147 D_corr=-0.0330 gap=-0.2477 p_strat=0.9720
+[23:19:54]     H3 batter_stay/boundary/hot/k=1: D_naive=-0.1309 D_corr=-0.0037 gap=0.1272 p_strat=0.6977
+[23:21:02]     H3 batter_stay/boundary/hot/k=2: D_naive=-0.1661 D_corr=0.0712 gap=0.2373 p_strat=0.5277
+[23:21:47]     H3 batter_stay/boundary/hot/k=3: D_naive=-0.3135 D_corr=-0.0002 gap=0.3133 p_strat=0.9995
+[23:24:34]     H3 batter_stay/boundary/cold/k=1: D_naive=0.0379 D_corr=0.0069 gap=-0.0309 p_strat=0.0060
+[23:26:24]     H3 batter_stay/boundary/cold/k=2: D_naive=0.0671 D_corr=-0.0001 gap=-0.0671 p_strat=0.9980
+[23:27:51]     H3 batter_stay/boundary/cold/k=3: D_naive=0.0935 D_corr=-0.0149 gap=-0.1084 p_strat=0.8486
+
+H3 momentum:
+            unit success_def direction  k   D_naive  D_corrected       gap  mean_bias  n_seq  p_uncond   p_strat      p_bh
+0   batter_stay       score       hot  1 -0.114389     0.006755  0.121144  -0.121144   1760  0.479760  0.402299  0.999500
+1   batter_stay       score       hot  2 -0.155607     0.068968  0.224575  -0.224575    571  0.189405  0.096452  0.578711
+2   batter_stay       score       hot  3 -0.221540     0.068605  0.290145  -0.290145    129  0.000500  0.736632  0.999500
+3   batter_stay       score      cold  1  0.090208     0.001857 -0.088351   0.088351   1918  0.012494  0.696152  0.999500
+4   batter_stay       score      cold  2  0.138486    -0.047014 -0.185500   0.185500    796  0.235382  0.381809  0.999500
+5   batter_stay       score      cold  3  0.214732    -0.033009 -0.247742   0.247742    298  0.000500  0.972014  0.999500
+6   batter_stay    boundary       hot  1 -0.130933    -0.003704  0.127229  -0.127229   1354  0.078461  0.697651  0.999500
+7   batter_stay    boundary       hot  2 -0.166087     0.071221  0.237308  -0.237308    354  0.522739  0.527736  0.999500
+8   batter_stay    boundary       hot  3 -0.313537    -0.000190  0.313347  -0.313347     74  0.000500  0.999500  0.999500
+9   batter_stay    boundary      cold  1  0.037851     0.006945 -0.030905   0.030905   1512  0.001000  0.005997  0.071964
+10  batter_stay    boundary      cold  2  0.067080    -0.000062 -0.067142   0.067142   1317  0.136932  0.998001  0.999500
+11  batter_stay    boundary      cold  3  0.093474    -0.014932 -0.108406   0.108406   1064  0.621189  0.848576  0.999500
+[23:27:51] refit seed0 models for figures
+[23:28:06] Ablations
+[23:28:06]   ablation: identity placebo
+Traceback (most recent call last):
+  File "/Users/safiullahbaig/Projects/reearch-papers/research-workspace/phase-4-experimenter/code/run_h3_ablations.py", line 49, in <module>
+    main()
+  File "/Users/safiullahbaig/Projects/reearch-papers/research-workspace/phase-4-experimenter/code/run_h3_ablations.py", line 35, in main
+    MA.run_ablations(death, train, val, test, T, c)
+  File "/Users/safiullahbaig/Projects/reearch-papers/research-workspace/phase-4-experimenter/code/main.py", line 459, in run_ablations
+    real_w = pd.DataFrame([x for x in [dict(model=n, target="wicket")] for n in []])
+                                                  ^
+NameError: name 'n' is not defined. Did you mean: 'np'?

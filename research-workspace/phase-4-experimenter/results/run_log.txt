@@ -1,0 +1,77 @@
+[23:03:41] loading cached parquet
+[23:03:41] split: train<= 2024 (172,593) | val 2025 (28,202) | test 2026 (22,883)
+[23:03:41] ===== SEED 0 =====
+[23:03:42]   fit wicket ladder
+[23:03:46]   fit runs ladder + multinomial
+[23:03:57] ===== SEED 1 =====
+[23:03:58]   fit wicket ladder
+[23:04:01]   fit runs ladder + multinomial
+[23:04:12] ===== SEED 2 =====
+[23:04:13]   fit wicket ladder
+[23:04:16]   fit runs ladder + multinomial
+[23:04:27] ===== SEED 3 =====
+[23:04:28]   fit wicket ladder
+[23:04:31]   fit runs ladder + multinomial
+[23:04:43] ===== SEED 4 =====
+[23:04:44]   fit wicket ladder
+[23:04:47]   fit runs ladder + multinomial
+[23:04:59] saved main_results.csv (75 rows)
+                   logloss     brier      rmse       mae      crps
+target model                                                      
+runs   M0              NaN       NaN  1.728350  1.291170       NaN
+       M_S             NaN       NaN  1.687508  1.255124       NaN
+       M_SB            NaN       NaN  1.691538  1.243050       NaN
+       M_SBW           NaN       NaN  1.692075  1.240632       NaN
+       M_SBW+P         NaN       NaN  1.691728  1.239912       NaN
+       M_SBW+P+H       NaN       NaN  1.686390  1.232867       NaN
+       M_SW            NaN       NaN  1.690285  1.247463       NaN
+       M_mult          NaN       NaN  1.690626  1.238430  0.816044
+wicket M0         0.274841  0.072252       NaN       NaN       NaN
+       M_S        0.273810  0.072113       NaN       NaN       NaN
+       M_SB       0.274128  0.072137       NaN       NaN       NaN
+       M_SBW      0.274951  0.072196       NaN       NaN       NaN
+       M_SBW+P    0.274230  0.072163       NaN       NaN       NaN
+       M_SBW+P+H  0.274079  0.072138       NaN       NaN       NaN
+       M_SW       0.274616  0.072123       NaN       NaN       NaN
+[23:04:59] H1: grouped SHAP
+
+H1 grouped SHAP %:
+ target      runs    wicket
+group                     
+B       0.506304  0.636891
+S       0.310586  0.260162
+W       0.183110  0.102948
+
+H1 incremental skill:
+    target   metric added  incr_skill     ci_lo     ci_hi
+0  wicket  logloss   B|S   -0.000334 -0.000970  0.000359
+1  wicket  logloss   W|S    0.000237 -0.000350  0.000823
+2  wicket  logloss  BW|S   -0.000334 -0.001278  0.000619
+3    runs     rmse   B|S   -0.005311 -0.008894 -0.001921
+4    runs     rmse   W|S   -0.002714 -0.004956 -0.000564
+5    runs     rmse  BW|S   -0.004917 -0.008400 -0.001532
+
+H1 asymmetry: {'identity_share_wicket': -0.493119660755085, 'identity_share_runs': -0.13677520582257902, 'asymmetry_runs_minus_wicket': 0.356344454932506, 'skill_state_wicket': 0.001011470883789889, 'skill_id_wicket': -0.00033404970290584757, 'skill_state_runs': 0.040867337047607366, 'skill_id_runs': -0.00491710094262876}
+[23:05:02] H1: leakage audit
+
+Leakage audit (R^2 identity~state):
+              identity_feature  r2_vs_state
+0                 bat_deathSR     0.169197
+1            bat_boundary_pct     0.150948
+2                 bat_dot_pct     0.146762
+3          bat_dismissal_rate     0.020311
+4           bat_n_prior_balls     0.111011
+5                bowl_deathER     0.073250
+6                bowl_dot_pct     0.038767
+7            bowl_wicket_rate     0.008686
+8  bowl_boundary_conceded_pct     0.083137
+9          bowl_n_prior_balls     0.077225
+[23:05:02] H2: incremental skill of history beyond state+PI
+
+H2 incremental:
+    target   metric     delta     ci_lo     ci_hi  dotrun_sign  sig_ci_excl0
+0  wicket  logloss  0.000165 -0.000132  0.000440            0             0
+1  wicket    brier  0.000021 -0.000023  0.000065            0             0
+2    runs     rmse  0.006500  0.004810  0.008257           -1             1
+[23:05:04] H3: Miller-Sanjurjo momentum (this is the slow part)
+[23:07:54]     H3 batter_stay/score/hot/k=1: D_naive=-0.1144 D_corr=0.0068 gap=0.1211 p_strat=0.4023

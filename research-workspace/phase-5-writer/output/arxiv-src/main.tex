@@ -1,0 +1,99 @@
+% ============================================================
+% arXiv Preprint
+% Compile: pdflatex main && bibtex main && pdflatex main && pdflatex main
+% ============================================================
+
+\documentclass[11pt]{article}
+
+% Core packages
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage{microtype}
+
+% Math
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+
+% Figures and tables
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{colortbl}
+
+% References and links
+\usepackage{natbib}
+\bibliographystyle{abbrvnat}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+\usepackage{url}
+
+\newcommand{\eg}{\textit{e.g.},\ }
+\newcommand{\ie}{\textit{i.e.},\ }
+
+% ============================================================
+
+\begin{document}
+
+\title{\textbf{The Death-Over Momentum Illusion: A Miller--Sanjurjo Correction
+for T20 Cricket}}
+
+\author{
+  Safiullah Baig
+}
+
+\date{
+  \today \\[0.5em]
+  \small Preprint.
+}
+
+\maketitle
+
+\begin{abstract}
+  \input{sections/abstract}
+\end{abstract}
+
+\textbf{Keywords:} T20 cricket, expected runs, wicket probability, calibration,
+SHAP, Markov property, hot hand, Miller--Sanjurjo correction.
+
+% ============================================================
+% Sections
+% ============================================================
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/introduction}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/related-work}
+
+\section{Problem Formulation}
+\label{sec:background}
+\input{sections/background}
+
+\section{Method}
+\label{sec:method}
+\input{sections/methodology}
+
+\section{Experiments}
+\label{sec:experiments}
+\input{sections/evaluation}
+
+\section{Discussion}
+\label{sec:discussion}
+\input{sections/discussion}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/conclusion}
+
+% ============================================================
+% References
+% ============================================================
+
+\bibliography{references}
+
+\end{document}

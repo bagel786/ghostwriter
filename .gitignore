@@ -1,0 +1,6 @@
+.DS_Store
+research-workspace/**/venv/
+research-workspace/**/data/
+research-workspace/**/__pycache__/
+*.pyc
+*.pdf

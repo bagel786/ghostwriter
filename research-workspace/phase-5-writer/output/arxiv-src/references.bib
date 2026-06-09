@@ -1,0 +1,272 @@
+% ============================================================
+% References — built ONLY from the Phase-1 scout's verified literature.
+% Peer-reviewed / archival sources are cited in the paper text.
+% Working papers / preprints are included and cited as such.
+% [UNVERIFIED] entries are kept for record but NOT cited in the body.
+% ============================================================
+
+% ---------- Cluster A: per-ball win-prob / expected-runs models ----------
+
+@article{asif2016inplay,
+  author  = {Asif, Muhammad and McHale, Ian G.},
+  title   = {In-play forecasting of win probability in One-Day International cricket: A dynamic logistic regression model},
+  journal = {International Journal of Forecasting},
+  volume  = {32},
+  number  = {1},
+  pages   = {34--43},
+  year    = {2016},
+  doi     = {10.1016/j.ijforecast.2015.02.005},
+}
+
+@article{davis2021dynamic,
+  author  = {Davis, Jack and Perera, Harsha and Swartz, Tim B.},
+  title   = {Dynamic cricket match outcome prediction},
+  journal = {Journal of Sports Analytics},
+  volume  = {7},
+  number  = {3},
+  pages   = {185--196},
+  year    = {2021},
+  doi     = {10.3233/JSA-200529},
+}
+
+@incollection{lamsal2024ingame,
+  author    = {Lamsal, Rabindra and Kahle, Christian},
+  title     = {In-Game Win Prediction Models for Cricket},
+  booktitle = {Smart Data Science (SDSC 2024)},
+  series    = {Communications in Computer and Information Science},
+  year      = {2024},
+  publisher = {Springer},
+}
+
+@techreport{swartz2016simulator,
+  author      = {Swartz, Tim B.},
+  title       = {A Simulator for {Twenty20} Cricket},
+  institution = {Simon Fraser University},
+  type        = {Working paper},
+  year        = {2016},
+  note        = {Hierarchical empirical-Bayes per-ball outcome model},
+}
+
+@techreport{swartz2020xer,
+  author      = {Epasinghege Dona, Nirodha and Nguyen, Robert and Gill, Paramjit and Swartz, Tim B.},
+  title       = {Expected Economy Rate ({xER}): Introducing the Expected-Goals Concept to Cricket},
+  institution = {Simon Fraser University},
+  type        = {Working paper},
+  year        = {2020},
+  note        = {Random-forest per-ball outcome model; Brier score 0.33.},
+}
+
+% WASP: real, well-documented tool, but the canonical description is
+% non-archival. Cited via its dynamic-programming formulation, NOT a journal
+% article. See the scout's verification note.
+@misc{brooker2012wasp,
+  author       = {Brooker, Scott and Hogan, Seamus},
+  title        = {The {WASP} (Win and Score Predictor): A Dynamic-Programming Value Function for Limited-Overs Cricket},
+  year         = {2012},
+  howpublished = {Dynamic-programming formulation; documented by New Zealand Cricket and the authors. Non-archival.},
+  note         = {Per-ball value recursion over (balls, wickets); deliberately models an average team vs.\ average team.},
+}
+
+% ---------- Cluster B: pressure indices / contextual performance ----------
+
+@article{shah2014pressure,
+  author  = {Shah, Pravin and Shah, Mihir},
+  title   = {Pressure Index in Cricket},
+  journal = {IOSR Journal of Sports and Physical Education},
+  volume  = {1},
+  number  = {5},
+  pages   = {9--11},
+  year    = {2014},
+}
+
+@article{bhattacharjee2016quantifying,
+  author  = {Bhattacharjee, Diganta and Lemmer, Hermanus H.},
+  title   = {Quantifying the pressure on the teams batting or bowling in the second innings of limited overs cricket matches},
+  journal = {International Journal of Sports Science and Coaching},
+  volume  = {11},
+  number  = {5},
+  pages   = {683--692},
+  year    = {2016},
+  doi     = {10.1177/1747954116667099},
+}
+
+@article{mallawa2024pressure,
+  author  = {Mallawa Arachchi, Sachith and Manage, Ananda B. W. and Scariano, Stephen M.},
+  title   = {A pressure index for the team batting second in a {T20I} cricket match},
+  journal = {Journal of Sports Analytics},
+  year    = {2024},
+  doi     = {10.3233/JSA-240792},
+}
+
+@techreport{thomson2021contextual,
+  author      = {Thomson, Cameron and Davis, Jack and Swartz, Tim B.},
+  title       = {Contextual Batting and Bowling in {Twenty20} Cricket},
+  institution = {Simon Fraser University},
+  type        = {Working paper},
+  year        = {2021},
+}
+
+@misc{arxiv2025markov,
+  author        = {Bandyopadhyay, Rhitankar and Bhattacharjee, Dibyojyoti},
+  title         = {Applications of Higher Order {Markov} Models and Pressure Index to Strategize Controlled Run Chases in {Twenty20} Cricket},
+  year          = {2025},
+  eprint        = {2505.01849},
+  archivePrefix = {arXiv},
+  primaryClass  = {stat.AP},
+  url           = {https://arxiv.org/abs/2505.01849},
+  note          = {Pressure-index analysis of T20 run chases over 6,537 matches.},
+}
+
+% ---------- Cluster C: ML for cricket outcome / death-over prediction ----------
+
+@inproceedings{sahoo2024shot,
+  author    = {Sahoo, Deepak Kumar and Deyar, Deheem U. and Gupta, Deepa},
+  title     = {Prediction of Shot Selection of a Batsman in the Death Over of a {T20} Cricket Match using Machine Learning},
+  booktitle = {2024 IEEE 9th International Conference for Convergence in Technology (I2CT)},
+  pages     = {1--7},
+  year      = {2024},
+  publisher = {IEEE},
+  doi       = {10.1109/I2CT61223.2024.10543886},
+}
+
+@article{jamil2023factors,
+  author  = {Jamil, Mikael and Kerruish, Sam and Hughes, Mike and Liu, Hongyou},
+  title   = {Factors impacting batting and bowling performance in the ``death'' phase of one-day international cricket},
+  journal = {International Journal of Performance Analysis in Sport},
+  volume  = {23},
+  number  = {2},
+  pages   = {111--124},
+  year    = {2023},
+  doi     = {10.1080/24748668.2023.2203369},
+}
+
+@inproceedings{raju2024dream11,
+  author    = {Raju, S. and others},
+  title     = {{IPL} {Dream11} Fantasy Team Prediction using Machine Learning},
+  booktitle = {Proceedings of the World Symposium on Software Engineering},
+  year      = {2024},
+  publisher = {ACM},
+}
+
+@inproceedings{hassan2025bpl,
+  author    = {Hassan, M. and others},
+  title     = {Outcome Prediction of {Bangladesh} Premier League {T20} Cricket via Ensemble Learning},
+  booktitle = {Proceedings of the IEEE Conference on Quality, Performance and Artificial Intelligence (QPAIN)},
+  year      = {2025},
+  publisher = {IEEE},
+}
+
+% ---------- Cluster D: hot hand / momentum foundations + correction ----------
+
+@article{gilovich1985hothand,
+  author  = {Gilovich, Thomas and Vallone, Robert and Tversky, Amos},
+  title   = {The hot hand in basketball: On the misperception of random sequences},
+  journal = {Cognitive Psychology},
+  volume  = {17},
+  number  = {3},
+  pages   = {295--314},
+  year    = {1985},
+  doi     = {10.1016/0010-0285(85)90010-6},
+}
+
+@article{miller2018surprised,
+  author  = {Miller, Joshua B. and Sanjurjo, Adam},
+  title   = {Surprised by the Hot Hand Fallacy? A Truth in the Law of Small Numbers},
+  journal = {Econometrica},
+  volume  = {86},
+  number  = {6},
+  pages   = {2019--2047},
+  year    = {2018},
+  doi     = {10.3982/ECTA14943},
+}
+
+@article{miller2024coldshower,
+  author  = {Miller, Joshua B. and Sanjurjo, Adam},
+  title   = {A Cold Shower for the Hot Hand Fallacy: Robust Evidence That Belief in the Hot Hand Is Justified},
+  journal = {Review of Economics and Statistics},
+  volume  = {106},
+  number  = {6},
+  pages   = {1607--1620},
+  year    = {2024},
+  doi     = {10.1162/rest_a_01287},
+}
+
+@inproceedings{huang2025momentum,
+  author    = {Huang, Y. and others},
+  title     = {Unraveling Psychological Momentum in Tennis via Machine Learning},
+  booktitle = {Proceedings of the IEEE Conference on Big Data and Artificial Intelligence (BDAI)},
+  year      = {2025},
+  publisher = {IEEE},
+}
+
+@article{wang2024momentum,
+  author  = {Wang, J. and Guo, Y. and Zhou, X.},
+  title   = {A multidimensional momentum chain model for tennis match prediction},
+  journal = {PLoS ONE},
+  year    = {2024},
+  doi     = {10.1371/journal.pone.0309843},
+}
+
+@article{ram2022hothand,
+  author  = {Ram, Sandip K. and Nandan, Shyam and Sornette, Didier},
+  title   = {Significant hot hand effect in the game of cricket},
+  journal = {Scientific Reports},
+  volume  = {12},
+  pages   = {11663},
+  year    = {2022},
+  doi     = {10.1038/s41598-022-14980-7},
+}
+
+@article{durbach2007cricket,
+  author  = {Durbach, Ian N. and Thiart, Jacques},
+  title   = {On a common perception of a random sequence in cricket},
+  journal = {South African Statistical Journal},
+  volume  = {41},
+  number  = {2},
+  pages   = {161--187},
+  year    = {2007},
+}
+
+% ---------- Methods / tooling ----------
+
+@inproceedings{ke2017lightgbm,
+  author    = {Ke, Guolin and Meng, Qi and Finley, Thomas and Wang, Taifeng and Chen, Wei and Ma, Weidong and Ye, Qiwei and Liu, Tie-Yan},
+  title     = {{LightGBM}: A Highly Efficient Gradient Boosting Decision Tree},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {30},
+  pages     = {3146--3154},
+  year      = {2017},
+}
+
+@inproceedings{lundberg2017shap,
+  author    = {Lundberg, Scott M. and Lee, Su-In},
+  title     = {A Unified Approach to Interpreting Model Predictions},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  volume    = {30},
+  pages     = {4765--4774},
+  year      = {2017},
+}
+
+@article{benjamini1995controlling,
+  author  = {Benjamini, Yoav and Hochberg, Yosef},
+  title   = {Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing},
+  journal = {Journal of the Royal Statistical Society: Series B},
+  volume  = {57},
+  number  = {1},
+  pages   = {289--300},
+  year    = {1995},
+}
+
+@misc{cricsheet,
+  author       = {Rushe, Stephen},
+  title        = {Cricsheet: Ball-by-ball data for cricket matches},
+  year         = {2024},
+  howpublished = {\url{https://cricsheet.org}},
+  note         = {Open ball-by-ball data, CC-BY-4.0. Accessed 2026-05-29.},
+}
+
+% ============================================================
+% [UNVERIFIED] — retrieved by the scout but NOT cited in the paper body:
+%   - WASP as a peer-reviewed article (non-archival; we cite the DP formulation only, above).
+%   - arXiv 2604.13861 (future-dated T20 MDP optimisation preprint) — excluded.
+% ============================================================

@@ -1,0 +1,44 @@
+\paragraph{Targets.}
+The unit of analysis is a single delivery in overs 16--20 (zero-indexed overs
+15--19). We model two per-ball targets separately rather than as one multinomial,
+because our hypotheses make asymmetric and opposite-sign claims about them.
+\begin{itemize}
+  \item \textbf{Expected runs.} $\texttt{runs\_off\_bat} \in \{0,1,2,3,4,6\}$,
+        the runs scored off the bat only (extras excluded), giving
+        $E[\text{runs}]$ via regression. The mean over legal balls in our data is
+        $1.424$.
+  \item \textbf{Wicket probability.} $\texttt{wicket} \in \{0,1\}$, set to $1$
+        only for \emph{batter-attributable} dismissals (bowled, caught, lbw,
+        stumped, caught and bowled, hit wicket). Run-outs, obstruction,
+        retired-out, and timed-out are coded $0$ for the primary target, since
+        they reflect base-running rather than the batter's shot risk; a variant
+        including run-outs ($\texttt{wicket\_any}$) is retained for robustness.
+        The batter-credited wicket rate on legal balls is $8.0\%$
+        ($\texttt{wicket\_any}$ $9.1\%$).
+\end{itemize}
+
+\paragraph{The Markov value recursion.}
+Most in-play cricket models assume the Markov property: the distribution over the
+next ball depends only on the current state $(b, w, \text{score}, \text{target},
+\dots)$ and not on the path that reached it. Under this assumption, the value of a
+state factorizes through the recursion in Section~\ref{sec:related}, with $r(b,w)$
+and $p(b,w)$ as the only per-ball inputs. Hypotheses H2 and H3 both test this
+assumption: H2 asks whether pressure history adds predictive skill beyond modeled
+state, and H3 asks whether streak structure shifts the next ball beyond the
+state-conditional base rate.
+
+\paragraph{The streak-selection bias.}
+For a binary success series $x_1, \dots, x_n$ and streak length $k$, the naive
+hot-hand statistic is
+\[
+  \hat{D} = \hat{P}(x_t = 1 \mid x_{t-k:t-1} = 1) - \hat{P}(x_t = 1 \mid x_{t-k:t-1} = 0),
+\]
+the difference in next-ball success rate following $k$ successes versus $k$
+failures. \citet{miller2018surprised} show that, in a finite sequence with a
+fixed number of successes, the act of conditioning on a realized streak biases
+$\hat{P}(\cdot \mid \text{streak})$ \emph{below} the true success probability, so
+$\mathbb{E}[\hat{D}] < 0$ even when outcomes are exchangeable. The bias grows with
+$k$ and shrinks with $n$. The correction we adopt (Section~\ref{sec:method})
+centers each sequence on its own permutation-expected $\hat{D}$, removing this
+bias before aggregation. This matters acutely for cricket death-over stays, which
+are short (often 4--18 balls) and therefore carry a large bias.

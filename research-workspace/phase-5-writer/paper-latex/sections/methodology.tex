@@ -1,0 +1,126 @@
+\subsection{Data and splits}
+\label{sec:data}
+We use the open Cricsheet ball-by-ball corpus \citep{cricsheet}, taking the
+men's IPL and men's T20 International CSV bundles (\texttt{ipl\_male\_csv2.zip},
+\texttt{t20s\_male\_csv2.zip}), downloaded 2026-05-29. From 1{,}052{,}624 parsed
+deliveries across all overs we keep the 223{,}678 death-over deliveries (overs
+16--20) from 4{,}402 matches (IPL 67{,}071; T20I 156{,}607), spanning seasons
+2005--2026. The runs distribution is as expected for the death overs (spikes at
+$0$, $1$, $4$, $6$; $3$ and $5$ rare), the legal-ball fraction is $0.952$, and
+139 Duckworth--Lewis-affected matches are flagged so that required-run-rate
+features are blanked for those chases.
+
+We use a temporal, match-grouped split: train on seasons $\le 2024$
+($172{,}593$ deliveries), validate on 2025 ($28{,}202$), and test on 2026
+($22{,}883$), the most recent season with substantial death-over volume. No match
+appears in two splits, and no test delivery informs training, including the
+identity encodings. Hyperparameters are chosen by $5$-fold \texttt{GroupKFold}
+(grouped by \texttt{match\_id}) on the training portion only.
+
+\subsection{Feature groups}
+\label{sec:features}
+Features are partitioned into disjoint groups so that SHAP mass can be attributed
+cleanly.
+\begin{itemize}
+  \item \textbf{State (S):} balls remaining, over, ball-in-over, wickets in hand,
+        current score and run rate, and (chase only) target, runs required, balls
+        remaining, required run rate, and $\text{RRR} - \text{CRR}$, plus an
+        \texttt{is\_chase} flag. Missing chase features for first-innings rows are
+        handled by LightGBM's native NaN routing.
+  \item \textbf{Batter identity (B):} empirical-Bayes target encodings computed
+        from deliveries strictly before the current match --- death-overs strike
+        rate, boundary rate, dot rate, dismissal rate, and prior-balls exposure
+        --- shrunk toward the global death mean ($\alpha \approx 50$ balls).
+  \item \textbf{Bowler identity (W):} the analogous encodings (economy, dot rate,
+        wicket rate, boundary-conceded rate, prior balls).
+  \item \textbf{Deterministic pressure index (P):} a Bhattacharjee--Lemmer-style
+        scalar built from required rate, balls used, and a wicket weight --- a
+        function of state, included as the baseline that history (H) must beat.
+  \item \textbf{Pressure history (H):} the length of the current consecutive
+        dot-ball run, balls since the last wicket, balls since the last boundary,
+        and a dot-run~$\times$~RRR interaction, computed on legal striker-faced
+        balls and reset at innings start.
+\end{itemize}
+To guard against the identity encodings smuggling in state information, we
+regress each encoding on the state group and report its $R^2$ (leakage audit).
+
+\subsection{Models and the nested ladder}
+\label{sec:ladder}
+The primary learner is LightGBM \citep{ke2017lightgbm}: a binary classifier for
+the wicket head (binary objective with class balancing,
+isotonic-calibrated on the validation fold) and a regressor for the runs head, in
+addition to a multinomial head over $\{0,1,2,3,4,6\}$ from which $E[\text{runs}]$
+and a CRPS are read off. Hyperparameters are fixed and modest to limit
+overfitting on $\sim$170k training rows: $600$ estimators with validation early
+stopping, learning rate $0.03$, $31$ leaves, \texttt{min\_child\_samples}~$200$,
+and $0.8$ subsample/column sampling, with only \texttt{num\_leaves} and
+\texttt{min\_child\_samples} tuned by GroupKFold. A regularized GLM (L2 logistic
+for wickets, Poisson for runs) is retained as a reference learner.
+
+The H1 design is a nested ladder of models that progressively adds feature
+groups (Table~\ref{tab:ladder-spec}). Incremental skill is the change in proper
+score between a simpler and a richer model, $\Delta = \text{score}(\text{simpler})
+- \text{score}(\text{richer})$ so that positive values denote improvement, with
+match-clustered bootstrap 95\% confidence intervals (resampling whole matches,
+$1000$ replicates). The H1 asymmetry statistic compares identity's normalized
+share of state-plus-identity skill for runs against that for wickets.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lll}
+\toprule
+Model & Features & Purpose \\
+\midrule
+M0          & base rate            & naive floor \\
+M\_S        & S                    & state-only (Markov backbone) \\
+M\_SB       & S + B                & + batter identity \\
+M\_SW       & S + W                & + bowler identity \\
+M\_SBW      & S + B + W            & full identity (H1) \\
+M\_SBW+P    & + P                  & state-derived pressure (H2 baseline) \\
+M\_SBW+P+H  & + H                  & pressure history (H2 test) \\
+\bottomrule
+\end{tabular}
+\caption{The nested model ladder. H1 compares M\_S against the identity models;
+H2 compares M\_SBW+P+H against M\_SBW+P.}
+\label{tab:ladder-spec}
+\end{table}
+
+\subsection{The Miller--Sanjurjo momentum test (H3)}
+\label{sec:h3method}
+The primary sequence unit is a single batter's death-over stay within one
+innings, restricted to legal balls faced; a wicket ends the stay. The primary
+success definition is a scoring shot ($\texttt{runs\_off\_bat} \ge 1$); a
+boundary definition ($\in \{4,6\}$) is reported alongside. For each sequence $i$
+of length $n_i$ with $s_i$ successes and streak length $k$:
+\begin{enumerate}
+  \item compute the observed difference $D_i$ (Section~\ref{sec:background});
+  \item compute the permutation-expected difference $\mathbb{E}_0[D_i]$ by
+        enumerating all $\binom{n_i}{s_i}$ rearrangements of the sequence's
+        successes (or Monte-Carlo sampling up to $2000$ when this is large) ---
+        this is the Miller--Sanjurjo bias for that sequence;
+  \item form the bias-corrected statistic $\tilde{D}_i = D_i - \mathbb{E}_0[D_i]$;
+  \item aggregate across sequences, weighting by the number of valid conditioning
+        instances, to obtain the corrected estimate $D_{\text{corr}}$ alongside
+        the naive aggregate $D_{\text{naive}}$.
+\end{enumerate}
+The quantity we report is the gap $D_{\text{corr}} - D_{\text{naive}}$, the amount
+by which removing the bias moves the answer. Significance is judged against two
+permutation nulls with $B = 2000$ shuffles (reduced from a preregistered $5000$ for
+runtime; because the bias and the corrected effect are separated by an order of
+magnitude, this changes only the resolution of the $p$-value, not which side of
+significance it falls on --- see Section~\ref{sec:limitations}): an unconditional
+within-sequence null,
+and --- as the key test of momentum \emph{beyond state} --- a state-stratified
+null that permutes outcomes only within cells of \{over, wickets-in-hand bucket,
+required-rate/score bucket\}, so the permuted series preserves the
+state-conditional base rate. We sweep $k \in \{1,2,3\}$ over both success
+definitions and both directions (hot hand, cold hand), controlling the family
+with Benjamini--Hochberg FDR \citep{benjamini1995controlling}; the preregistered
+primary test is $k=1$, scoring shot, hot hand, state-stratified null.
+
+All model metrics are reported as the mean over five seeds $\{0,1,2,3,4\}$
+governing LightGBM bagging, bootstrap, and permutation randomness; H1 SHAP, H2
+incremental, and H3 use the seed-0 fitted models on the held-out 2026 season.
+Grouped SHAP \citep{lundberg2017shap} is computed with TreeSHAP on
+$\sim$20{,}000 sampled test rows.
