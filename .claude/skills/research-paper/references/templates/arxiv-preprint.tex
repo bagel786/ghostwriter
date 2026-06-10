@@ -1,0 +1,149 @@
+% ============================================================
+% arXiv Preprint Template
+% Compile: pdflatex main && bibtex main && pdflatex main && pdflatex main
+% ============================================================
+
+\documentclass[11pt]{article}
+
+% Core packages
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}              % Times New Roman font
+\usepackage{microtype}          % Better typography
+\usepackage{lineno}             % Line numbers (remove for final)
+
+% Math
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}                 % Bold math
+
+% Figures and tables
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs}           % Professional tables (\toprule, \midrule, \bottomrule)
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{colortbl}
+
+% Algorithms
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% References and links
+\usepackage{natbib}
+\bibliographystyle{abbrvnat}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+\usepackage{url}
+
+% Code listings
+\usepackage{listings}
+\lstset{basicstyle=\small\ttfamily, breaklines=true}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+% Useful macros — customize for your paper
+\newcommand{\eg}{\textit{e.g.},\ }
+\newcommand{\ie}{\textit{i.e.},\ }
+\newcommand{\etal}{\textit{et al.}}
+\newcommand{\method}[0]{\textsc{YourMethod}}  % Replace with your method name
+
+% ============================================================
+
+\begin{document}
+
+% Uncomment for line numbers during review
+% \linenumbers
+
+\title{\textbf{Your Paper Title Here}}
+
+\author{
+  First Author\textsuperscript{1} \quad
+  Second Author\textsuperscript{2} \quad
+  Third Author\textsuperscript{1}
+  \\[0.5em]
+  \textsuperscript{1}University Name, City, Country \\
+  \textsuperscript{2}Other Institution, City, Country \\
+  \texttt{\{first.author, third.author\}@university.edu} \quad
+  \texttt{second@otherinstitution.edu}
+}
+
+\date{
+  \today \\[0.5em]
+  \small Preprint. Under review.  % Or: "Accepted at [Venue] [Year]"
+}
+
+\maketitle
+
+\begin{abstract}
+  \input{sections/abstract}
+\end{abstract}
+
+\textbf{Keywords:} keyword1, keyword2, keyword3, keyword4
+
+\tableofcontents
+\newpage
+
+% ============================================================
+% Sections
+% ============================================================
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/introduction}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/related-work}
+
+\section{Background}
+\label{sec:background}
+\input{sections/background}
+% Remove this section if not needed
+
+\section{Method}
+\label{sec:method}
+\input{sections/methodology}
+
+\section{Experiments}
+\label{sec:experiments}
+\input{sections/evaluation}
+
+\section{Discussion}
+\label{sec:discussion}
+\input{sections/discussion}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/conclusion}
+
+% ============================================================
+% References
+% ============================================================
+
+\bibliography{references}
+
+% ============================================================
+% Appendix
+% ============================================================
+
+\appendix
+
+\section{Implementation Details}
+\label{app:implementation}
+% Hyperparameters, architecture details, training setup
+
+\section{Additional Results}
+\label{app:results}
+% Extra tables, ablations, qualitative examples
+
+\section{Proofs}
+\label{app:proofs}
+% Formal proofs if needed
+
+\end{document}

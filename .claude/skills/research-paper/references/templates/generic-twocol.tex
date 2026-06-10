@@ -1,0 +1,106 @@
+% ============================================================
+% Generic Two-Column Template
+% Use when venue isn't specified or for journal-style output
+% Compile: pdflatex main && bibtex main && pdflatex main && pdflatex main
+% ============================================================
+
+\documentclass[10pt, twocolumn]{article}
+
+\usepackage[margin=0.75in, columnsep=0.25in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage{microtype}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{natbib}
+\bibliographystyle{abbrvnat}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+\usepackage{url}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}{Definition}
+
+\newcommand{\eg}{\textit{e.g.},\ }
+\newcommand{\ie}{\textit{i.e.},\ }
+\newcommand{\etal}{\textit{et al.}}
+
+% ============================================================
+
+\begin{document}
+
+\twocolumn[{%
+\begin{@twocolumnfalse}
+  \maketitle
+  \begin{abstract}
+    \input{sections/abstract}
+  \end{abstract}
+  \textbf{Keywords:} keyword1, keyword2, keyword3
+  \vspace{1em}
+\end{@twocolumnfalse}
+}]
+
+\section{Introduction}
+\input{sections/introduction}
+
+\section{Related Work}
+\input{sections/related-work}
+
+\section{Method}
+\input{sections/methodology}
+
+\section{Evaluation}
+\input{sections/evaluation}
+
+\section{Discussion}
+\input{sections/discussion}
+
+\section{Conclusion}
+\input{sections/conclusion}
+
+\bibliography{references}
+
+\appendix
+\section{Appendix}
+% Additional details
+
+\end{document}
+
+
+% ============================================================
+% Generic Single-Column Template
+% Save as main-singlecol.tex or replace above
+% ============================================================
+
+% \documentclass[11pt]{article}
+% \usepackage[margin=1in]{geometry}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage{times}
+% \usepackage{microtype}
+% \usepackage{amsmath, amssymb, amsthm}
+% \usepackage{bm}
+% \usepackage{graphicx}
+% \usepackage{subcaption}
+% \usepackage{booktabs}
+% \usepackage{algorithm}
+% \usepackage{algorithmic}
+% \usepackage{setspace}
+% \onehalfspacing
+% \usepackage{natbib}
+% \bibliographystyle{abbrvnat}
+% \usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+%
+% \begin{document}
+% \maketitle
+% ... (same section structure as above)
+% \end{document}

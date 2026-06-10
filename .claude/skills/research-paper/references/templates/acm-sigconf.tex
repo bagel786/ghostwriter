@@ -1,0 +1,104 @@
+% ============================================================
+% ACM SIGCONF Template
+% Compatible with: CHI, CSCW, UIST, SIGMOD, SIGCOMM, and most ACM conferences
+% Compile: pdflatex main && bibtex main && pdflatex main && pdflatex main
+% ============================================================
+
+\documentclass[sigconf, review]{acmart}
+% Options:
+%   sigconf     — two-column conference format
+%   review      — add line numbers for review (remove for camera-ready)
+%   anonymous   — anonymize for double-blind review (remove for camera-ready)
+
+% acmart handles most packages internally. Only add what it doesn't provide.
+\usepackage{booktabs}
+\usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{bm}
+
+% ACM copyright info — fill in after acceptance
+% For preprint/review, leave as-is
+\setcopyright{none}
+% \setcopyright{acmcopyright}
+% \copyrightyear{2024}
+% \acmYear{2024}
+% \acmDOI{10.1145/XXXXXXX.XXXXXXX}
+% \acmConference[CHI '24]{CHI Conference on Human Factors in Computing Systems}{May 11--16, 2024}{Honolulu, HI, USA}
+
+% ============================================================
+
+\begin{document}
+
+\title{Your Paper Title Here}
+\subtitle{Optional Subtitle}  % Remove if not needed
+
+\author{First Author}
+\email{email@university.edu}
+\affiliation{%
+  \institution{University Name}
+  \city{City}
+  \country{Country}
+}
+
+\author{Second Author}
+\email{email@institution.edu}
+\affiliation{%
+  \institution{Other Institution}
+  \city{City}
+  \country{Country}
+}
+
+\begin{abstract}
+  \input{sections/abstract}
+\end{abstract}
+
+% ACM CCS concepts — generate at https://dl.acm.org/ccs
+\begin{CCSXML}
+<ccs2012>
+  <concept>
+    <concept_id>10003120.10003121</concept_id>
+    <concept_desc>Human-centered computing~HCI theory, concepts and models</concept_desc>
+    <concept_significance>500</concept_significance>
+  </concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Human-centered computing~HCI theory, concepts and models}
+
+\keywords{keyword1, keyword2, keyword3, keyword4}
+
+\maketitle
+
+% ============================================================
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/introduction}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/related-work}
+
+\section{Study Design}
+\label{sec:method}
+\input{sections/methodology}
+
+\section{Findings}
+\label{sec:findings}
+\input{sections/evaluation}
+
+\section{Discussion}
+\label{sec:discussion}
+\input{sections/discussion}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/conclusion}
+
+% ============================================================
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
