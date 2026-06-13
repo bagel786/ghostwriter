@@ -33,7 +33,7 @@ Markov-violation question we test.
 
 \paragraph{Machine learning for cricket, including the death phase.}
 A large applied-ML literature predicts match winners or innings totals with
-gradient boosting and random forests \citep{raju2024dream11, hassan2025bpl},
+gradient boosting and random forests \citep{raju2024dream11},
 typically reporting accuracy or $R^2$ on aggregate quantities rather than
 calibrated per-ball probabilities. A few works engage the death phase directly:
 \citet{sahoo2024shot} use SHAP to model shot selection in the final over, and
@@ -52,8 +52,8 @@ post-streak success rate strictly below the true rate, with the bias growing in
 streak length and shrinking in sequence length. Correcting for it reverses the
 canonical result and recovers real hot-hand effects, confirmed across datasets in
 \citet{miller2024coldshower}. The tennis-momentum literature
-\citep{huang2025momentum, wang2024momentum} has adopted permutation testing for
-momentum. Cricket has its own hot-hand strand, but it does not use the
+\citep{wang2024momentum} has recently adopted difference-equation and
+machine-learning models of within-match momentum. Cricket has its own hot-hand strand, but it does not use the
 streak-selection correction: \citet{durbach2007cricket} test the perception of
 randomness in cricket scoring sequences with run-based tests that predate
 \citet{miller2018surprised}, and \citet{ram2022hothand} report a significant
