@@ -37,11 +37,14 @@ predictive skill into game state and batter/bowler identity, test whether
 pressure history adds skill beyond a Markov state model, and apply the
 Miller--Sanjurjo correction to the question of per-ball momentum.
 
-We find, first, that the apparent death-over ``cold hand'' is largely a
-finite-sequence statistical artifact: once the Miller--Sanjurjo bias is removed and
-the test is run against a state-stratified null, we find no statistically
-significant per-ball momentum beyond what game state already implies. This
-correction --- new to cricket --- is our central, most defensible result. Second,
+We find, first, that the apparent death-over ``cold hand'' is largely an artifact
+of the estimator rather than the data. By importing the Miller--Sanjurjo correction
+--- new to cricket --- we measure how large that artifact is: the naive momentum
+statistic ($D=-0.114$) is almost exactly cancelled by the finite-sequence bias
+($-0.121$), so we put the size of the apparent-momentum illusion at $+0.121$ and
+the corrected, state-controlled estimate at a non-significant $+0.007$. Quantifying
+the illusion, not merely reporting a null, is our central and most defensible
+contribution. Second,
 we have no evidence that a \emph{historical-rate encoding} of batter/bowler
 identity improves held-out per-ball skill over a game-state model on either target
 --- and, more pointedly, that adding this identity encoding \emph{hurts}
@@ -63,13 +66,13 @@ matter,'' and ``no significant momentum'' from ``momentum proven absent.''
 
 \paragraph{Contributions.} We make the following contributions:
 \begin{itemize}
-  \item We release a calibrated per-ball benchmark for T20 death overs on
-        223{,}678 deliveries from 4{,}402 men's IPL and T20I matches
-        (2005--2026, held-out 2026 test season), reporting proper scores for
-        both $E[\text{runs}]$ (RMSE $1.728 \to 1.686$ over the base rate) and
-        $P(\text{wicket})$ (log-loss $0.2748 \to 0.2738$) --- and show that a
-        state-only model is the best-calibrated wicket model, with identity
-        \emph{worsening} held-out log-loss.
+  \item To our knowledge, we provide the first application of the Miller--Sanjurjo
+        streak-selection correction to cricket, and use it to \emph{quantify} the
+        apparent-momentum illusion at the death over: the $+0.121$ gap between the
+        naive momentum estimate ($D=-0.114$) and the finite-sequence bias
+        ($-0.121$). The corrected estimate ($+0.007$) is not significant against a
+        state-stratified null ($p=0.40$), so the apparent ``cold hand'' is an
+        estimator artifact, and we report how large that artifact is.
   \item We document a SHAP-versus-skill dissociation and stress-test it: TreeSHAP
         credits batter identity with $51$--$64\%$ of explanatory mass, yet our
         historical-rate encoding of that identity adds zero or negative held-out
@@ -83,13 +86,16 @@ matter,'' and ``no significant momentum'' from ``momentum proven absent.''
         $E[\text{runs}]$ only: pressure history adds significant skill (RMSE
         $+0.0065$, 95\% CI $[0.0048, 0.0083]$, dot-run sign negative) but nothing
         to $P(\text{wicket})$.
-  \item To our knowledge, we provide the first application of the Miller--Sanjurjo
-        streak-selection correction to cricket. The naive death-over momentum
-        estimate is a strong negative ($D=-0.114$), but the finite-sequence bias is
-        nearly equal and opposite ($-0.121$); the corrected estimate ($+0.007$) is
-        not significant against a state-stratified null ($p=0.40$). We quantify the
-        apparent-momentum illusion as the $+0.121$ gap between the naive and
-        corrected estimators.
+  \item We release a calibrated per-ball benchmark for T20 death overs on
+        223{,}678 deliveries from 4{,}402 men's IPL and T20I matches
+        (2005--2026, held-out 2026 test season), reporting proper scores for
+        both $E[\text{runs}]$ (RMSE $1.728 \to 1.686$ over the base rate) and
+        $P(\text{wicket})$ (log-loss $0.2748 \to 0.2738$). Because per-ball
+        death-over outcomes sit close to the base rate, even the best model improves
+        on it only modestly; we treat this low ceiling on per-ball predictability as
+        a substantive finding and therefore rest our claims on qualitative
+        dissociations and the bias correction rather than on the magnitude of any
+        single proper-score gain.
 \end{itemize}
 
 The remainder of the paper reviews related work (Section~\ref{sec:related}),

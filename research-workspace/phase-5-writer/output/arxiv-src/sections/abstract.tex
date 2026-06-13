@@ -8,13 +8,16 @@ expected runs and wicket probability and decompose their skill into game state
 versus a historical-rate encoding of identity, using a nested model ladder, grouped
 SHAP, and match-clustered bootstrap intervals.
 
-Our headline result concerns momentum. Applying the Miller--Sanjurjo
+Our headline result is a measurement: applying the Miller--Sanjurjo
 streak-selection correction to cricket --- to our knowledge for the first time ---
-we show the apparent death-over ``cold hand'' (naive $D=-0.114$) is almost
-entirely a finite-sequence artifact (bias $-0.121$): the corrected estimate is
-$+0.007$ and not significant against a state-stratified null ($p=0.40$). The
-$+0.121$ gap between the naive and corrected estimators quantifies the size of the
-apparent-momentum illusion. On the identity question, we find no evidence that our
+we quantify the apparent-momentum illusion at the death over at $+0.121$, the gap
+between the naive and bias-corrected per-ball momentum estimators. That illusion
+nearly fully accounts for the apparent ``cold hand'': the naive estimate
+($D=-0.114$) is almost exactly the finite-sequence bias ($-0.121$), so the
+corrected estimate is $+0.007$ and not significant against a state-stratified null
+($p=0.40$). Because death-over stays are short --- the regime where the bias is
+largest --- this is precisely the setting where the uncorrected estimator is most
+misleading. On the identity question, we find no evidence that our
 historical-rate encoding of identity improves out-of-sample skill: a
 game-state-only model is the best-calibrated wicket model (log-loss $0.2738$ vs.\
 $0.2748$ base rate), and adding identity worsens held-out log-loss and
