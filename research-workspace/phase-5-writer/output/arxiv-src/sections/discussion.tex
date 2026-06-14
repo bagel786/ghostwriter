@@ -67,17 +67,20 @@ H3 returns to the momentum question. The naive cricket momentum estimator report
 strong ``cold hand'' at the death, and a reader applying the standard
 conditional-probability comparison --- as the cricket pressure literature
 implicitly does --- would be liable to treat that as real and even ``significant''
-at higher $k$. We find it is largely a finite-sequence selection artifact: the
-Miller--Sanjurjo bias is nearly equal and opposite, the corrected estimate is
-near zero, and no cell survives a state-stratified null with multiple-testing
-control. Death-over stays are short, which is the regime where the bias is largest,
-so it is a setting where omitting the correction is particularly consequential. We
-frame the conclusion as an absence of evidence rather than evidence of absence:
-after correction and state control we find no statistically significant per-ball
-momentum, which is not the same as proving momentum cannot exist at any scale or for
-any player. We report the $+0.121$ gap as the study's main quantity: it estimates
-how much of the apparent momentum is introduced by the estimator rather than
-supported by the data.
+at higher $k$. We find it is largely a finite-sequence selection artifact. Our primary quantity
+is deliberately a \emph{measurement}, not a hypothesis test: the $+0.121$ gap
+between the naive estimator and the Miller--Sanjurjo bias is what our sample is
+well powered to estimate, and it is large and nearly equal-and-opposite to the
+naive $-0.114$ ``cold hand.'' Death-over stays are short, which is the regime where
+the bias is largest, so omitting the correction is particularly consequential here.
+The downstream significance test is a secondary, deliberately conservative check:
+the corrected estimate is near zero and no cell survives a state-stratified null
+with multiple-testing control. We are careful not to overload that test --- with
+$n=1{,}760$ sequences in the primary cell it is underpowered to detect a small true
+momentum even if one exists, so we read it as an absence of evidence, not evidence
+of absence. The defensible claim is the measured size of the mirage; the
+non-significant residual is consistent with, but does not by itself prove, a true
+null.
 
 \subsection{Limitations}
 \label{sec:limitations}
@@ -98,9 +101,11 @@ still shift the estimates. Third, the main calibration tables use a single held-
 test season (2026) with five seeds governing only model and resampling randomness;
 the rolling-window study (Section~\ref{sec:results-robust}) extends the central
 identity result across 2021--2026, but the H2 and H3 analyses are reported on 2026
-only. Fourth, the H3 permutation count was $B = 2000$ (from a preregistered $5000$)
-for runtime; given the large separation between bias and corrected effect this
-affects $p$-value resolution, not the conclusions. Fifth, the dot-run pressure
+only. Fourth, the published H3 permutation null used $B = 2000$ rather than the
+preregistered $5000$ for runtime; the released code is set back to the
+preregistered $5000$, and because the permutation count affects only $p$-value
+resolution --- not the $+0.121$ bias measurement that is our primary quantity ---
+the conclusions are invariant to it. Fifth, the dot-run pressure
 feature is plausibly confounded with bowler quality even after our controls, so the
 H2 effect should be read as associational. Finally, WASP's canonical description is
 non-archival, so we cite it by its dynamic-programming formulation rather than a

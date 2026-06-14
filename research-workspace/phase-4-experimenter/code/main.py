@@ -35,9 +35,9 @@ CONFIG = dict(
     alpha=50,
     shap_sample=20000,
     boot_B=1000,
-    perm_B_uncond=2000,
-    perm_B_strat=2000,
-    ms_max_perm=2000,
+    perm_B_uncond=5000,   # preregistered permutation count (published run used 2000 for runtime)
+    perm_B_strat=5000,    # preregistered; affects p-value resolution only, not the +0.121 bias measurement
+    ms_max_perm=2000,     # MS rearrangement cap for the bias expectation (separate knob)
     k_values=[1, 2, 3],
 )
 

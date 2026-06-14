@@ -27,8 +27,9 @@ tested against pressure sequences at the delivery level. Meanwhile, the
 general-sports ``hot hand'' literature has been transformed by the discovery of
 a streak-selection bias in the naive conditional-probability estimator
 \citep{miller2018surprised, miller2024coldshower}, a correction that overturned
-the canonical basketball null \citep{gilovich1985hothand}. No cricket study has
-imported it.
+the canonical basketball null \citep{gilovich1985hothand}. Cricket has a hot-hand
+strand that cites this work, but no study has imported the finite-sequence bias
+\emph{correction} itself to the per-ball level (Section~\ref{sec:related}).
 
 We address all three gaps in a single experiment on real Cricsheet data. We
 build calibrated per-ball models of expected runs $E[\text{runs}]$ and wicket
@@ -38,13 +39,16 @@ pressure history adds skill beyond a Markov state model, and apply the
 Miller--Sanjurjo correction to the question of per-ball momentum.
 
 We find, first, that the apparent death-over ``cold hand'' is largely an artifact
-of the estimator rather than the data. By importing the Miller--Sanjurjo correction
---- new to cricket --- we measure how large that artifact is: the naive momentum
+of the estimator rather than the data. By importing the Miller--Sanjurjo
+finite-sequence bias correction at the per-ball level --- to our knowledge a first
+for cricket --- we measure how large that artifact is: the naive momentum
 statistic ($D=-0.114$) is almost exactly cancelled by the finite-sequence bias
 ($-0.121$), so we put the size of the apparent-momentum illusion at $+0.121$ and
-the corrected, state-controlled estimate at a non-significant $+0.007$. Quantifying
-the illusion, not merely reporting a null, is our central and most defensible
-contribution. Second,
+the corrected, state-controlled estimate at a non-significant $+0.007$. We sell
+this as a \emph{measurement of the mirage's size} --- the quantity our sample
+powers --- not as a test of whether momentum can exist; quantifying the illusion,
+not merely reporting a null, is our central and most defensible contribution.
+Second,
 we have no evidence that a \emph{historical-rate encoding} of batter/bowler
 identity improves held-out per-ball skill over a game-state model on either target
 --- and, more pointedly, that adding this identity encoding \emph{hurts}
@@ -54,25 +58,29 @@ random-player placebo confirms this is a genuine dissociation between faithful
 in-sample attribution and generalizable skill, not a leakage or feature-encoding
 artifact. Third, residual dot-ball pressure adds significant skill to expected runs
 (with the expected negative sign) but nothing to wicket risk, so the Markov
-property is violated only for scoring intensity, not for dismissal risk. The
-absolute proper-score differences here are small --- per-ball death-over outcomes
-sit close to the base rate, so even the best models improve on it only modestly ---
-and we therefore lean on the qualitative dissociation and the bias correction
-rather than the size of any one model gain. All conclusions are specific to per-ball
-outcomes in the death overs, under our feature set and our historical-rate identity
-encoding, after state control and bias correction; we are careful throughout to
-distinguish ``this encoding of identity does not help'' from ``identity does not
-matter,'' and ``no significant momentum'' from ``momentum proven absent.''
+property is violated only for scoring intensity, not for dismissal risk (an
+associational effect, plausibly confounded with bowler quality). Absolute
+proper-score differences are small --- per-ball death-over outcomes sit close to
+the base rate --- so we lean on the qualitative dissociation and the bias
+correction rather than the size of any one model gain. Throughout we distinguish
+``this encoding of identity does not help'' from ``identity does not matter,'' and
+``no significant momentum'' from ``momentum proven absent.''
 
 \paragraph{Contributions.} We make the following contributions:
 \begin{itemize}
-  \item To our knowledge, we provide the first application of the Miller--Sanjurjo
-        streak-selection correction to cricket, and use it to \emph{quantify} the
-        apparent-momentum illusion at the death over: the $+0.121$ gap between the
-        naive momentum estimate ($D=-0.114$) and the finite-sequence bias
-        ($-0.121$). The corrected estimate ($+0.007$) is not significant against a
-        state-stratified null ($p=0.40$), so the apparent ``cold hand'' is an
-        estimator artifact, and we report how large that artifact is.
+  \item To our knowledge we are the first to import the Miller--Sanjurjo
+        finite-sequence bias \emph{correction} itself to cricket at the per-ball
+        level --- prior cricket hot-hand work \citep{ram2022hothand} cites
+        Miller--Sanjurjo to frame the debate but applies a self-exciting model to
+        career performances rather than de-biasing the per-ball conditional
+        estimator (Section~\ref{sec:related}). We use the correction to
+        \emph{quantify} the apparent-momentum illusion at the death over: the
+        $+0.121$ gap between the naive momentum estimate ($D=-0.114$) and the
+        finite-sequence bias ($-0.121$). The corrected estimate ($+0.007$) is not
+        significant against a state-stratified null ($p=0.40$); we report the
+        $+0.121$ bias size --- the quantity our sample powers --- as the primary
+        result, so the apparent ``cold hand'' is, to the resolution we can measure,
+        an estimator artifact.
   \item We document a SHAP-versus-skill dissociation and stress-test it: TreeSHAP
         credits batter identity with $51$--$64\%$ of explanatory mass, yet our
         historical-rate encoding of that identity adds zero or negative held-out
