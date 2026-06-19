@@ -4,3 +4,5 @@ research-workspace/**/data/
 research-workspace/**/__pycache__/
 *.pyc
 *.pdf
+*.docx
+research-workspace/**/png-pages/
